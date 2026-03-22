@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LIPINSKI L-50 | Reference Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#060606;
+  --ink2:#0d0d0d;
+  --ink3:#141414;
+  --ink4:#1c1c1c;
+  --gold:#c09b5a;
+  --gold2:#d4b07a;
+  --cream:#f0ece4;
+  --mist:#8a857e;
+  --faint:#2e2c29;
+}
+
+html{scroll-snap-type:y mandatory;overflow-y:scroll;overflow-x:hidden;height:100%}
+body{background:var(–ink);color:var(–cream);font-family:‘Jost’,sans-serif;font-weight:300;cursor:none}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:6px;height:6px;background:var(–gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s,border .3s}
+#cur.big{width:36px;height:36px;background:transparent;border:1px solid var(–gold)}
+
+/* ── PROGRESS BAR ── */
+#prog{position:fixed;left:0;top:0;height:2px;background:var(–gold);z-index:1000;width:0%;transition:width .1s}
+
+/* ── SECTION DOTS ── */
+#dots{position:fixed;right:36px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:14px}
+.dot-nav{width:5px;height:5px;border-radius:50%;background:var(–faint);cursor:none;transition:background .3s,transform .3s}
+.dot-nav.active{background:var(–gold);transform:scale(1.5)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 56px;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:normal}
+.n-logo{font-family:‘Cormorant Garamond’,serif;font-size:17px;letter-spacing:.3em;font-weight:400;color:var(–cream);text-decoration:none}
+.n-logo b{color:var(–gold);font-weight:400}
+.n-links{display:flex;gap:40px}
+.n-links a{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(–mist);text-decoration:none;transition:color .3s}
+.n-links a:hover{color:var(–gold)}
+
+/* ── SHARED SECTION STYLES ── */
+section{scroll-snap-align:start;height:100vh;width:100%;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+/* ── SECTION 1 — HERO ── */
+#s1{background:var(–ink);flex-direction:column;align-items:flex-start;padding:0 56px}
+.hero-noise{position:absolute;inset:0;background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=’.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=’.04’/%3E%3C/svg%3E”);pointer-events:none;z-index:1}
+.hero-glow{position:absolute;right:-10%;top:-20%;width:60vw;height:80vh;background:radial-gradient(ellipse,rgba(192,155,90,.08) 0%,transparent 65%);pointer-events:none}
+.hero-glow2{position:absolute;left:-5%;bottom:-10%;width:40vw;height:50vh;background:radial-gradient(ellipse,rgba(192,155,90,.04) 0%,transparent 65%);pointer-events:none}
+.hero-line{position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(192,155,90,.12),transparent);transform:translateY(-50%)}
+.hero-year{position:absolute;right:56px;bottom:48px;font-size:10px;letter-spacing:.3em;color:var(–faint);writing-mode:vertical-rl;z-index:2}
+.hero-content{position:relative;z-index:2}
+.h-tag{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(–gold);margin-bottom:28px;opacity:0;transform:translateY(16px);animation:up .8s .2s ease forwards}
+.h-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(100px,15vw,200px);line-height:.88;letter-spacing:.02em;color:var(–cream);margin-bottom:0;opacity:0;transform:translateY(24px);animation:up 1s .4s ease forwards}
+.h-title span{color:var(–gold);display:block}
+.h-sub{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-size:clamp(18px,2vw,26px);font-weight:300;color:var(–mist);margin-top:24px;max-width:560px;opacity:0;transform:translateY(16px);animation:up .8s .7s ease forwards}
+.h-cta{display:flex;align-items:center;gap:32px;margin-top:48px;opacity:0;transform:translateY(16px);animation:up .8s .9s ease forwards}
+.btn-g{padding:15px 44px;background:var(–gold);color:var(–ink);font-family:‘Jost’,sans-serif;font-size:10px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;text-decoration:none;transition:background .3s;cursor:none}
+.btn-g:hover{background:var(–gold2)}
+.btn-t{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(–mist);text-decoration:none;border-bottom:1px solid var(–faint);padding-bottom:2px;transition:color .3s,border-color .3s;cursor:none}
+.btn-t:hover{color:var(–gold);border-color:var(–gold)}
+.scroll-hint{position:absolute;bottom:44px;left:56px;display:flex;align-items:center;gap:16px;z-index:2;opacity:0;animation:fadeIn .8s 1.4s forwards}
+.scroll-hint span{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(–faint)}
+.scroll-line{width:48px;height:1px;background:linear-gradient(90deg,var(–gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+
+/* ── SECTION 2 — STATEMENT ── */
+#s2{background:var(–ink2);flex-direction:column;text-align:center;padding:0 40px}
+.s2-word{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(60px,10vw,140px);line-height:.9;color:var(–ink4);letter-spacing:.04em;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;transition:color 1s}
+.s2-reveal{position:relative;z-index:2;max-width:900px}
+.s2-quote{font-family:‘Cormorant Garamond’,serif;font-size:clamp(28px,4vw,52px);font-weight:300;font-style:italic;line-height:1.3;color:var(–cream)}
+.s2-quote em{color:var(–gold);font-style:normal}
+.s2-attr{margin-top:32px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(–gold)}
+.s2-line{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(–gold),transparent);margin:32px auto}
+
+/* ── SECTION 3 — BLACK PRODUCT ── */
+#s3{background:#0a0907}
+.prod-split{display:grid;grid-template-columns:1fr 1fr;height:100%;width:100%}
+.prod-visual{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.prod-visual-bg-dark{background:radial-gradient(ellipse 80% 80% at 50% 50%,#1a1610 0%,#060606 100%)}
+.prod-visual-bg-light{background:radial-gradient(ellipse 80% 80% at 50% 50%,#2a2520 0%,#0d0a08 100%)}
+.prod-info{display:flex;flex-direction:column;justify-content:center;padding:80px 72px;border-left:1px solid var(–faint)}
+.prod-num{font-family:‘Bebas Neue’,sans-serif;font-size:180px;color:var(–faint);line-height:1;position:absolute;right:-10px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4}
+.prod-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(–gold);margin-bottom:20px}
+.prod-name{font-family:‘Cormorant Garamond’,serif;font-size:clamp(44px,5vw,68px);font-weight:300;line-height:1;margin-bottom:12px}
+.prod-sub{font-size:12px;color:var(–mist);letter-spacing:.12em;margin-bottom:40px}
+.prod-specs{display:grid;grid-template-columns:1fr 1fr;gap:24px 48px;padding:32px 0;border-top:1px solid var(–faint);border-bottom:1px solid var(–faint);margin-bottom:40px}
+.ps-l{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(–faint);margin-bottom:5px}
+.ps-v{font-size:15px;color:var(–cream)}
+.prod-footer{display:flex;align-items:center;justify-content:space-between}
+.prod-price{font-family:‘Cormorant Garamond’,serif;font-size:40px;font-weight:300;color:var(–gold)}
+.prod-price small{font-family:‘Jost’,sans-serif;font-size:12px;color:var(–mist);margin-left:6px}
+.btn-order{padding:14px 36px;border:1px solid var(–gold);background:transparent;color:var(–gold);font-family:‘Jost’,sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;cursor:none;transition:background .3s,color .3s}
+.btn-order:hover{background:var(–gold);color:var(–ink)}
+
+/* ── SVG SPEAKERS ── */
+.spk-wrap{position:relative;z-index:2;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8))}
+.spk-wrap svg{width:min(260px,28vw)}
+
+/* ── SECTION 4 — WHITE PRODUCT ── */
+#s4{background:#0e0c0a}
+
+/* ── SECTION 5 — SPECS KINETIC ── */
+#s5{background:var(–ink);flex-direction:column;padding:0 56px}
+.specs-bg-text{position:absolute;font-family:‘Bebas Neue’,sans-serif;font-size:clamp(120px,18vw,240px);color:var(–faint);opacity:.15;letter-spacing:.08em;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap}
+.specs-content{position:relative;z-index:2;width:100%;max-width:1200px}
+.specs-header{margin-bottom:60px}
+.specs-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(–gold);margin-bottom:16px}
+.specs-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(56px,7vw,100px);line-height:.9;color:var(–cream)}
+.specs-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.spec-tile{background:var(–ink2);padding:40px 36px;position:relative;overflow:hidden;transition:background .3s}
+.spec-tile:hover{background:var(–ink3)}
+.spec-tile::before{content:’’;position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(–gold),transparent);opacity:0;transition:opacity .3s}
+.spec-tile:hover::before{opacity:1}
+.st-num{font-family:‘Bebas Neue’,sans-serif;font-size:72px;color:var(–gold);line-height:1}
+.st-unit{font-size:18px;color:var(–gold);opacity:.6}
+.st-label{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(–mist);margin-top:12px;margin-bottom:8px}
+.st-desc{font-size:12px;color:var(–faint);line-height:1.6}
+
+/* ── SECTION 6 — HERITAGE ── */
+#s6{background:var(–ink2);padding:0 56px}
+.heritage-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;width:100%;align-items:center}
+.hg-left{}
+.hg-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(–gold);margin-bottom:28px}
+.hg-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(64px,8vw,110px);line-height:.88;color:var(–cream);margin-bottom:40px}
+.hg-title span{color:var(–gold)}
+.hg-body{font-size:14px;color:var(–mist);line-height:1.9;max-width:480px}
+.hg-right{display:flex;flex-direction:column;gap:2px}
+.hg-stat{background:var(–ink3);padding:36px 40px;display:flex;align-items:center;gap:32px;border-left:2px solid transparent;transition:border-color .3s}
+.hg-stat:hover{border-color:var(–gold)}
+.hg-stat-n{font-family:‘Bebas Neue’,sans-serif;font-size:56px;color:var(–gold);line-height:1;min-width:100px}
+.hg-stat-info{}
+.hg-stat-l{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(–mist)}
+.hg-stat-d{font-size:12px;color:var(–faint);margin-top:4px;line-height:1.5}
+
+/* ── SECTION 7 — TESTIMONIALS ── */
+#s7{background:var(–ink);overflow:hidden}
+.test-wrap{position:relative;z-index:2;max-width:900px;padding:0 56px}
+.test-bg{position:absolute;font-family:‘Bebas Neue’,sans-serif;font-size:clamp(200px,28vw,360px);color:rgba(192,155,90,.04);line-height:1;pointer-events:none;bottom:-20px;right:-40px;letter-spacing:.06em}
+.test-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(–gold);margin-bottom:36px}
+.test-slider{overflow:hidden;position:relative}
+.test-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.test-slide{min-width:100%;padding-right:20px}
+.test-q{font-family:‘Cormorant Garamond’,serif;font-size:clamp(22px,3vw,38px);font-weight:300;font-style:italic;line-height:1.4;color:var(–cream);margin-bottom:28px}
+.test-q::before{content:’\201C’;color:var(–gold)}
+.test-q::after{content:’\201D’;color:var(–gold)}
+.test-a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(–gold)}
+.test-controls{display:flex;gap:16px;margin-top:48px}
+.test-btn{width:44px;height:44px;background:transparent;border:1px solid var(–faint);color:var(–mist);font-size:18px;cursor:none;transition:border-color .3s,color .3s;display:flex;align-items:center;justify-content:center}
+.test-btn:hover{border-color:var(–gold);color:var(–gold)}
+.test-count{font-size:10px;letter-spacing:.2em;color:var(–faint);display:flex;align-items:center;margin-left:auto;gap:8px}
+.test-count span{color:var(–gold)}
+
+/* ── SECTION 8 — ORDER / FOOTER ── */
+#s8{background:var(–ink2);flex-direction:column;padding:0 56px}
+.order-content{display:grid;grid-template-columns:1fr 1fr;gap:80px;width:100%;align-items:center}
+.oc-left .oc-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(–gold);margin-bottom:20px}
+.oc-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(60px,8vw,110px);line-height:.88;margin-bottom:32px}
+.oc-body{font-size:13px;color:var(–mist);line-height:1.9;max-width:420px;margin-bottom:40px}
+.oc-contact a{display:block;font-size:12px;color:var(–mist);text-decoration:none;margin-bottom:8px;letter-spacing:.08em;transition:color .3s}
+.oc-contact a:hover{color:var(–gold)}
+.oc-right{background:var(–ink3);padding:56px;border-top:2px solid var(–gold)}
+.form-label{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(–faint);margin-bottom:10px;display:block}
+.form-input{width:100%;background:var(–ink4);border:1px solid var(–faint);color:var(–cream);padding:14px 18px;font-family:‘Jost’,sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .2s;margin-bottom:20px}
+.form-input:focus{border-color:var(–gold)}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-select{width:100%;background:var(–ink4);border:1px solid var(–faint);color:var(–cream);padding:14px 18px;font-family:‘Jost’,sans-serif;font-size:13px;font-weight:300;outline:none;margin-bottom:20px;cursor:none;appearance:none}
+.form-select:focus{border-color:var(–gold)}
+#sq-card{margin-bottom:4px}
+#sq-errors{color:#e05555;font-size:11px;min-height:18px;margin-bottom:16px}
+.btn-submit{width:100%;padding:18px;background:var(–gold);color:var(–ink);border:none;font-family:‘Jost’,sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;cursor:none;transition:background .3s;margin-top:8px}
+.btn-submit:hover{background:var(–gold2)}
+.btn-submit:disabled{opacity:.5}
+.form-note{font-size:9px;color:var(–faint);text-align:center;margin-top:12px;letter-spacing:.06em}
+.success-msg{display:none;text-align:center;padding:40px 0}
+.success-msg.show{display:block}
+.success-icon{font-family:‘Cormorant Garamond’,serif;font-size:56px;color:var(–gold);margin-bottom:20px}
+.success-title{font-family:‘Bebas Neue’,sans-serif;font-size:48px;color:var(–cream);margin-bottom:16px}
+.success-body{font-size:13px;color:var(–mist);line-height:1.8}
+.footer-bar{position:absolute;bottom:0;left:0;right:0;padding:24px 56px;border-top:1px solid var(–faint);display:flex;align-items:center;justify-content:space-between}
+.fb-copy{font-size:10px;color:var(–faint);letter-spacing:.1em}
+.fb-loc{font-size:10px;color:var(–faint);display:flex;align-items:center;gap:8px}
+.fb-loc::before{content:’’;width:4px;height:4px;background:var(–gold);border-radius:50%;display:inline-block}
+
+/* ── ANIMATIONS ── */
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes rotateSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.spk-float{animation:float 6s ease-in-out infinite}
+
+/* ── AMBIENT RING ── */
+.ambient-ring{position:absolute;border-radius:50%;border:1px solid rgba(192,155,90,.08);pointer-events:none}
+
+/* ── IN-VIEW ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+.prod-split{grid-template-columns:1fr}
+.prod-visual{height:40vh}
+.prod-info{padding:40px 32px}
+.specs-row{grid-template-columns:1fr 1fr}
+.heritage-grid,.order-content{grid-template-columns:1fr}
+nav{padding:20px 28px}
+#s1,#s5,#s6,#s7,#s8{padding:0 28px}
+.footer-bar{padding:20px 28px}
+}
+</style>
+
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="prog"></div>
+
+<!-- DOTS -->
+
+<div id="dots">
+  <div class="dot-nav active" data-target="s1"></div>
+  <div class="dot-nav" data-target="s2"></div>
+  <div class="dot-nav" data-target="s3"></div>
+  <div class="dot-nav" data-target="s4"></div>
+  <div class="dot-nav" data-target="s5"></div>
+  <div class="dot-nav" data-target="s6"></div>
+  <div class="dot-nav" data-target="s7"></div>
+  <div class="dot-nav" data-target="s8"></div>
+</div>
+
+<!-- NAV -->
+
+<nav>
+  <a href="#s1" class="n-logo">LIPINSKI <b>SOUND</b></a>
+  <div class="n-links">
+    <a href="#s3">The L-50</a>
+    <a href="#s5">Specifications</a>
+    <a href="#s6">Heritage</a>
+    <a href="#s8">Order</a>
+  </div>
+</nav>
+
+<!-- ══ S1 HERO ══ -->
+
+<section id="s1">
+  <div class="hero-noise"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-line"></div>
+  <!-- ambient rings -->
+  <div class="ambient-ring" style="width:600px;height:600px;right:-100px;top:-100px"></div>
+  <div class="ambient-ring" style="width:300px;height:300px;right:100px;top:80px;border-color:rgba(192,155,90,.04)"></div>
+  <div class="hero-content">
+    <p class="h-tag">Washington DC · Est. 2003 · Class A Reference</p>
+    <h1 class="h-title">THE<span>L-50</span></h1>
+    <p class="h-sub">The only Class A powered monitor in existence. Born from 20 years of acoustic research. The secret weapon of the world's most demanding engineers.</p>
+    <div class="h-cta">
+      <a href="#s3" class="btn-g">Order Now</a>
+      <a href="#s5" class="btn-t">View Specifications</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+  <div class="hero-year">© 2026</div>
+</section>
+
+<!-- ══ S2 STATEMENT ══ -->
+
+<section id="s2">
+  <div class="s2-word" id="s2word">ACCURACY</div>
+  <div class="s2-reveal">
+    <div class="s2-line"></div>
+    <blockquote class="s2-quote reveal">"The LIPINSKI sound is in the same league as <em>the best loudspeakers I've ever heard</em>, including Egglestons, Wilson Watt/Puppys and Dunlavy's."</blockquote>
+    <p class="s2-attr reveal" style="transition-delay:.15s">Bob Katz — Mastering Engineer</p>
+    <div class="s2-line"></div>
+  </div>
+</section>
+
+<!-- ══ S3 BLACK SPEAKER ══ -->
+
+<section id="s3">
+  <div class="prod-split">
+    <div class="prod-visual prod-visual-bg-dark">
+      <div class="spk-wrap spk-float" style="width:90%;max-width:480px">
+        <img src="l50black.JPG" alt="LIPINSKI L-50 Obsidian Black" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 40px 80px rgba(0,0,0,.9))"/>
+      </div>
+      <div class="prod-num">01</div>
+    </div>
+    <div class="prod-info">
+      <p class="prod-tag reveal">Stealth Edition</p>
+      <h2 class="prod-name reveal" style="transition-delay:.1s">L-50<br>Obsidian<br>Black</h2>
+      <p class="prod-sub reveal" style="transition-delay:.15s">Class A Powered Monitor · Single Unit</p>
+      <div class="prod-specs reveal" style="transition-delay:.2s">
+        <div><p class="ps-l">Technology</p><p class="ps-v">Class A</p></div>
+        <div><p class="ps-l">Configuration</p><p class="ps-v">MTM 3-Way</p></div>
+        <div><p class="ps-l">Freq. Response</p><p class="ps-v">45–40k Hz</p></div>
+        <div><p class="ps-l">Tweeter</p><p class="ps-v">Neodymium</p></div>
+      </div>
+      <div class="prod-footer reveal" style="transition-delay:.25s">
+        <div class="prod-price">$3,200<small>/ pair</small></div>
+        <button class="btn-order" onclick="openModal('Obsidian Black','$3,200')">Order Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S4 WHITE SPEAKER ══ -->
+
+<section id="s4">
+  <div class="prod-split">
+    <div class="prod-visual prod-visual-bg-light">
+      <div class="spk-wrap spk-float" style="width:90%;max-width:480px;animation-delay:-3s">
+        <img src="l50white.JPG" alt="LIPINSKI L-50 Arctic White" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 40px 80px rgba(0,0,0,.7))"/>
+      </div>
+      <div class="prod-num" style="color:rgba(192,155,90,.12)">02</div>
+    </div>
+    <div class="prod-info">
+      <p class="prod-tag reveal">Signature Edition</p>
+      <h2 class="prod-name reveal" style="transition-delay:.1s">L-50<br>Arctic<br>White</h2>
+      <p class="prod-sub reveal" style="transition-delay:.15s">Class A Powered Monitor · Single Unit</p>
+      <div class="prod-specs reveal" style="transition-delay:.2s">
+        <div><p class="ps-l">Technology</p><p class="ps-v">Class A</p></div>
+        <div><p class="ps-l">Configuration</p><p class="ps-v">MTM 3-Way</p></div>
+        <div><p class="ps-l">Freq. Response</p><p class="ps-v">45–40k Hz</p></div>
+        <div><p class="ps-l">Tweeter</p><p class="ps-v">Neodymium</p></div>
+      </div>
+      <div class="prod-footer reveal" style="transition-delay:.25s">
+        <div class="prod-price">$3,200<small>/ pair</small></div>
+        <button class="btn-order" onclick="openModal('Arctic White','$3,200')">Order Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S5 SPECS ══ -->
+
+<section id="s5">
+  <div class="specs-bg-text">L·50</div>
+  <div class="specs-content">
+    <div class="specs-header">
+      <p class="specs-tag reveal">Technical Data</p>
+      <h2 class="specs-title reveal" style="transition-delay:.1s">ENGINEERING<br>WITHOUT<br>COMPROMISE</h2>
+    </div>
+    <div class="specs-row">
+      <div class="spec-tile reveal" style="transition-delay:.1s">
+        <div class="st-num">45<span class="st-unit">Hz</span></div>
+        <p class="st-label">Low Frequency</p>
+        <p class="st-desc">Extended bass from a compact sealed enclosure. Zero port coloration.</p>
+      </div>
+      <div class="spec-tile reveal" style="transition-delay:.18s">
+        <div class="st-num">40<span class="st-unit">k</span></div>
+        <p class="st-label">High Frequency</p>
+        <p class="st-desc">Neodymium Ring Radiator with wide dispersion. Beyond human hearing.</p>
+      </div>
+      <div class="spec-tile reveal" style="transition-delay:.26s">
+        <div class="st-num" style="font-size:52px;padding-top:10px">CLASS<span class="st-unit" style="font-size:52px"> A</span></div>
+        <p class="st-label">Amplification</p>
+        <p class="st-desc">Patented LIPINSKI Square discrete circuitry. Only Class A powered monitor on the market.</p>
+      </div>
+      <div class="spec-tile reveal" style="transition-delay:.34s">
+        <div class="st-num">20<span class="st-unit">yr</span></div>
+        <p class="st-label">R&D Investment</p>
+        <p class="st-desc">$8–10M cumulative research by Dr. Andrew Lipinski. Now commercialized.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S6 HERITAGE ══ -->
+
+<section id="s6">
+  <div class="heritage-grid">
+    <div class="hg-left">
+      <p class="hg-tag reveal">Heritage</p>
+      <h2 class="hg-title reveal" style="transition-delay:.1s">BORN IN THE<br><span>STUDIO</span></h2>
+      <p class="hg-body reveal" style="transition-delay:.2s">Founded in Bethesda, Maryland in 2003 by Dr. Andrew Lipinski — a recording engineer educated in Europe, active across the globe. Two decades of acoustic research produced a monitor with no equal at its price point. Trusted by engineers who shaped the sound of Led Zeppelin, Prince, Jay-Z, and Aretha Franklin. Used by The President's Own United States Marine Band at the White House.</p>
+    </div>
+    <div class="hg-right">
+      <div class="hg-stat reveal" style="transition-delay:.1s">
+        <div class="hg-stat-n">19×</div>
+        <div class="hg-stat-info">
+          <p class="hg-stat-l">Grammy Award</p>
+          <p class="hg-stat-d">Co-investor Rafa Sardina — contributing $10M personally to the venture</p>
+        </div>
+      </div>
+      <div class="hg-stat reveal" style="transition-delay:.18s">
+        <div class="hg-stat-n">76%</div>
+        <div class="hg-stat-info">
+          <p class="hg-stat-l">Gross Margin</p>
+          <p class="hg-stat-d">Zero manufacturing debt. High-margin hardware revenue since founding.</p>
+        </div>
+      </div>
+      <div class="hg-stat reveal" style="transition-delay:.26s">
+        <div class="hg-stat-n">UMG</div>
+        <div class="hg-stat-info">
+          <p class="hg-stat-l">Universal Music Group</p>
+          <p class="hg-stat-d">Institutional licensing client. AI music data partnership ongoing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S7 TESTIMONIALS ══ -->
+
+<section id="s7">
+  <div class="test-bg">TRUTH</div>
+  <div class="test-wrap">
+    <p class="test-tag reveal">What They Say</p>
+    <div class="test-slider">
+      <div class="test-track" id="testTrack">
+        <div class="test-slide">
+          <p class="test-q">They blow away every small, powered monitor I have ever heard.</p>
+          <p class="test-a">John Gatski — Audio Reviewer, 30+ Years</p>
+        </div>
+        <div class="test-slide">
+          <p class="test-q">The level of detail is simply jaw-dropping.</p>
+          <p class="test-a">Mix Magazine</p>
+        </div>
+        <div class="test-slide">
+          <p class="test-q">Tympani were powerful, fast and taut — with that brilliant bite to the horn section.</p>
+          <p class="test-a">Reference Recordings Review</p>
+        </div>
+        <div class="test-slide">
+          <p class="test-q">My new-found friend produces world-class sound, the proverbial hair-raising shiver of excitement.</p>
+          <p class="test-a">Bob Katz — Mastering Engineer</p>
+        </div>
+      </div>
+    </div>
+    <div class="test-controls">
+      <button class="test-btn" onclick="testPrev()">&#8592;</button>
+      <button class="test-btn" onclick="testNext()">&#8594;</button>
+      <div class="test-count"><span id="testCur">1</span> / 4</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S8 ORDER ══ -->
+
+<section id="s8">
+  <div class="order-content">
+    <div class="oc-left">
+      <p class="oc-tag reveal">Place Your Order</p>
+      <h2 class="oc-title reveal" style="transition-delay:.1s">ORDER<br>THE<br>L-50</h2>
+      <p class="oc-body reveal" style="transition-delay:.2s">Each unit hand-inspected and matched at our Washington DC facility. Free insured shipping within the continental US. Our team contacts you within one business day to arrange delivery.</p>
+      <div class="oc-contact reveal" style="transition-delay:.25s">
+        <a href="mailto:info@lipinskisound.com">info@lipinskisound.com</a>
+        <a href="tel:9172099269">+1 (917) 209-9269</a>
+        <a href="https://lipinskisound.com" target="_blank">lipinskisound.com</a>
+      </div>
+    </div>
+    <div class="oc-right reveal" style="transition-delay:.15s">
+      <div id="order-form">
+        <div class="form-row2">
+          <div>
+            <label class="form-label">First Name</label>
+            <input class="form-input" id="fn" type="text" placeholder="First" autocomplete="given-name"/>
+          </div>
+          <div>
+            <label class="form-label">Last Name</label>
+            <input class="form-input" id="ln" type="text" placeholder="Last" autocomplete="family-name"/>
+          </div>
+        </div>
+        <label class="form-label">Email</label>
+        <input class="form-input" id="em" type="email" placeholder="your@email.com" autocomplete="email"/>
+        <label class="form-label">Variant</label>
+        <select class="form-select" id="variant">
+          <option value="Obsidian Black">L-50 Obsidian Black — $3,200 / pair</option>
+          <option value="Arctic White">L-50 Arctic White — $3,200 / pair</option>
+        </select>
+        <label class="form-label">Card Details</label>
+        <div id="sq-card"></div>
+        <div id="sq-errors"></div>
+        <button class="btn-submit" id="pay-btn" onclick="doPayment()">Complete Order · $3,200</button>
+        <p class="form-note">🔒 Secured by Square · SSL Encrypted</p>
+      </div>
+      <div class="success-msg" id="success-msg">
+        <div class="success-icon">✦</div>
+        <h3 class="success-title">ORDER RECEIVED</h3>
+        <p class="success-body">Thank you. A confirmation will be sent to your email. Our team will contact you within one business day to arrange delivery and white-glove installation.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <p class="fb-copy">© 2026 Lipinski Sound Corporation. All rights reserved.</p>
+    <p class="fb-loc">Bethesda, Maryland USA</p>
+  </div>
+</section>
+
+<!-- ══ CHECKOUT MODAL (for product page buttons) ══ -->
+
+<div id="modal" style="position:fixed;inset:0;z-index:500;background:rgba(6,6,6,.95);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s">
+  <div style="background:var(--ink2);border:1px solid var(--faint);width:100%;max-width:480px;padding:56px;position:relative;transform:translateY(16px);transition:transform .4s;border-top:2px solid var(--gold)" id="modal-inner">
+    <button onclick="closeModal()" style="position:absolute;top:20px;right:24px;background:none;border:none;color:var(--mist);font-size:22px;cursor:none;line-height:1" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--mist)'">×</button>
+    <p style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Secure Order</p>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--cream);margin-bottom:8px">LIPINSKI L-50</h3>
+    <p id="m-variant" style="font-size:12px;color:var(--mist);letter-spacing:.12em;margin-bottom:32px">Variant · Pair</p>
+    <label class="form-label">Full Name</label>
+    <input class="form-input" id="m-name" type="text" placeholder="Your full name"/>
+    <label class="form-label">Email</label>
+    <input class="form-input" id="m-email" type="email" placeholder="your@email.com"/>
+    <label class="form-label">Card Details</label>
+    <div id="sq-card-modal"></div>
+    <div id="sq-errors-modal" style="color:#e05555;font-size:11px;min-height:18px;margin-bottom:16px"></div>
+    <button class="btn-submit" id="m-pay-btn" onclick="doModalPayment()">Complete Order · $3,200</button>
+    <p class="form-note" style="margin-top:12px">🔒 Secured by Square · SSL Encrypted</p>
+  </div>
+</div>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,select,.dot-nav').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+
+// ── DOT NAV ──
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8'];
+const dots = document.querySelectorAll('.dot-nav');
+dots.forEach((d,i) => {
+  d.addEventListener('click', () => document.getElementById(sections[i]).scrollIntoView({behavior:'smooth'}));
+});
+const sectionEls = sections.map(id => document.getElementById(id));
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = sectionEls.indexOf(e.target);
+      dots.forEach((d,j) => d.classList.toggle('active', j === i));
+    }
+  });
+}, {threshold: 0.5});
+sectionEls.forEach(el => observer.observe(el));
+
+// ── REVEAL ON SCROLL ──
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold: 0.15});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// ── S2 WORD CYCLE ──
+const words = ['ACCURACY','CLARITY','TRUTH','REFERENCE','PURITY'];
+let wi = 0;
+setInterval(() => {
+  wi = (wi+1) % words.length;
+  const w = document.getElementById('s2word');
+  w.style.opacity = '0';
+  w.style.transform = 'translate(-50%,-50%) translateY(20px)';
+  w.style.transition = 'opacity .4s, transform .4s';
+  setTimeout(() => {
+    w.textContent = words[wi];
+    w.style.opacity = '1';
+    w.style.transform = 'translate(-50%,-50%) translateY(0)';
+  }, 400);
+}, 2800);
+
+// ── TESTIMONIALS ──
+let testIdx = 0;
+const testTrack = document.getElementById('testTrack');
+const testCur = document.getElementById('testCur');
+function testGo(i) {
+  testIdx = (i + 4) % 4;
+  testTrack.style.transform = `translateX(-${testIdx * 100}%)`;
+  testCur.textContent = testIdx + 1;
+}
+function testNext() { testGo(testIdx + 1); }
+function testPrev() { testGo(testIdx - 1); }
+
+// ── SQUARE CONFIG ──
+const APP_ID = 'sandbox-sq0idb-8wsw8NnqYoOjPyav0Q6jfw';
+const LOCATION_ID = 'LYAM6P1WT8R5R';
+let inlineCard, modalCard;
+
+async function initInlineSquare() {
+  if (!window.Square || inlineCard) return;
+  try {
+    const p = window.Square.payments(APP_ID, LOCATION_ID);
+    inlineCard = await p.card({ style: cardStyle() });
+    await inlineCard.attach('#sq-card');
+  } catch(e) { console.warn('Square inline:', e); }
+}
+
+async function initModalSquare() {
+  if (!window.Square || modalCard) return;
+  try {
+    const p = window.Square.payments(APP_ID, LOCATION_ID);
+    modalCard = await p.card({ style: cardStyle() });
+    await modalCard.attach('#sq-card-modal');
+  } catch(e) { console.warn('Square modal:', e); }
+}
+
+function cardStyle() {
+  return {
+    '.input-container': { borderColor: '#1c1c1c', borderRadius: '0px' },
+    '.input-container.is-focus': { borderColor: '#c09b5a' },
+    '.input-container.is-error': { borderColor: '#e05555' },
+    input: { backgroundColor: '#141414', color: '#f0ece4', fontFamily: 'Jost, sans-serif', fontSize: '13px' },
+    'input::placeholder': { color: '#2e2c29' },
+  };
+}
+
+// Init inline card when S8 comes into view
+const s8obs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) initInlineSquare();
+}, {threshold: 0.1});
+s8obs.observe(document.getElementById('s8'));
+
+// ── MODAL ──
+let currentVariant = 'Obsidian Black';
+function openModal(variant, price) {
+  currentVariant = variant;
+  document.getElementById('m-variant').textContent = `L-50 ${variant} · Pair · ${price}`;
+  document.getElementById('modal').style.opacity = '1';
+  document.getElementById('modal').style.pointerEvents = 'all';
+  document.getElementById('modal-inner').style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
+  setTimeout(initModalSquare, 100);
+}
+function closeModal() {
+  document.getElementById('modal').style.opacity = '0';
+  document.getElementById('modal').style.pointerEvents = 'none';
+  document.getElementById('modal-inner').style.transform = 'translateY(16px)';
+  document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+// ── PAYMENT ──
+async function processPayment(card, name, email, variant, errorEl, btn) {
+  if (!name || !email) { errorEl.textContent = 'Please enter your name and email.'; return; }
+  if (!card) { errorEl.textContent = 'Payment not initialized. Please check Square credentials.'; return; }
+  btn.disabled = true; btn.textContent = 'Processing…';
+  try {
+    const r = await card.tokenize();
+    if (r.status === 'OK') {
+      await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ sourceId: r.token, amount: 320000, currency: 'USD', buyerName: name, buyerEmail: email, variant })
+      });
+      return true;
+    } else {
+      errorEl.textContent = r.errors?.[0]?.message || 'Card error.';
+      btn.disabled = false; btn.textContent = 'Complete Order · $3,200';
+      return false;
+    }
+  } catch(e) {
+    errorEl.textContent = 'An error occurred. Please try again.';
+    btn.disabled = false; btn.textContent = 'Complete Order · $3,200';
+    return false;
+  }
+}
+
+async function doPayment() {
+  const name = (document.getElementById('fn').value + ' ' + document.getElementById('ln').value).trim();
+  const email = document.getElementById('em').value.trim();
+  const variant = document.getElementById('variant').value;
+  const ok = await processPayment(inlineCard, name, email, variant,
+    document.getElementById('sq-errors'), document.getElementById('pay-btn'));
+  if (ok) {
+    document.getElementById('order-form').style.display = 'none';
+    document.getElementById('success-msg').classList.add('show');
+  }
+}
+
+async function doModalPayment() {
+  const name = document.getElementById('m-name').value.trim();
+  const email = document.getElementById('m-email').value.trim();
+  const ok = await processPayment(modalCard, name, email, currentVariant,
+    document.getElementById('sq-errors-modal'), document.getElementById('m-pay-btn'));
+  if (ok) {
+    document.getElementById('m-pay-btn').closest('div').innerHTML =
+      '<div class="success-msg show"><div class="success-icon">✦</div><h3 class="success-title">ORDER RECEIVED</h3><p class="success-body">Confirmation sent to your email. We will contact you within one business day.</p></div>';
+  }
+}
+</script>
+
+</body>
+</html>

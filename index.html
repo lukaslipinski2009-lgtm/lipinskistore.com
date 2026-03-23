@@ -226,7 +226,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
         <div><p class="psl">Tweeter</p><p class="psv">Neodymium</p></div>
       </div>
       <div class="pfooter reveal" style="transition-delay:.2s">
-        <div class="pprice">$3,200<small>/ pair</small></div>
+        <div class="pprice">$6,400<small>/ pair</small></div>
         <button class="btnord" onclick="openModal('Arctic White')">Order Now</button>
       </div>
     </div>
@@ -298,12 +298,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
         <input class="finput" id="em" type="email" placeholder="your@email.com" autocomplete="email"/>
         <label class="flabel">Variant</label>
         <select class="fsel" id="variant">
-          <option value="Obsidian Black">L-50 Obsidian Black — $3,200 / pair</option>
-          <option value="Arctic White">L-50 Arctic White — $3,200 / pair</option>
+          <option value="Obsidian Black">L-50 Obsidian Black — $6,400 / pair</option>
+          <option value="Arctic White">L-50 Arctic White — $6,400 / pair</option>
         </select>
         <label class="flabel">Card Details</label>
         <div id="sqcard"></div><div id="sqerr"></div>
-        <button class="btnpay" id="paybtn" onclick="doPay()">Complete Order · $3,200</button>
+        <button class="btnpay" id="paybtn" onclick="doPay()">Complete Order · $6,400</button>
         <p class="fnote">🔒 Secured by Square · SSL Encrypted</p>
       </div>
       <div class="sbox" id="sinline"><div class="sicon">✦</div><h3 class="stit2">ORDER RECEIVED</h3><p class="sbody">Confirmation sent to your email. Our team will contact you within one business day.</p></div>
@@ -325,7 +325,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
       <input class="finput" id="memail" type="email" placeholder="your@email.com" autocomplete="email"/>
       <label class="flabel">Card Details</label>
       <div id="msqcard"></div><div id="msqerr"></div>
-      <button class="btnpay" id="mpaybtn" onclick="doModalPay()">Complete Order · $3,200</button>
+      <button class="btnpay" id="mpaybtn" onclick="doModalPay()">Complete Order · $6,400</button>
       <p class="fnote">🔒 Secured by Square · SSL Encrypted</p>
     </div>
     <div class="sbox" id="msuccess"><div class="sicon">✦</div><h3 class="stit2">ORDER RECEIVED</h3><p class="sbody">Confirmation sent. We will contact you within one business day.</p></div>
@@ -349,9 +349,9 @@ const cs=()=>({'.input-container':{borderColor:'#1c1c1c',borderRadius:'0px'},'.i
 async function initCard(id){if(!window.Square)return null;try{const p=window.Square.payments(AID,LID);const c=await p.card({style:cs()});await c.attach('#'+id);return c}catch(e){console.warn(e);return null}}
 new IntersectionObserver(async e=>{if(e[0].isIntersecting&&!iCard)iCard=await initCard('sqcard')},{threshold:.1,root:sc}).observe(document.getElementById('s8'));
 let curV='';
-async function openModal(v){curV=v;document.getElementById('mvar').textContent=`L-50 ${v} · Pair · $3,200`;document.getElementById('mform').style.display='block';document.getElementById('msuccess').classList.remove('show');document.getElementById('modal').classList.add('show');document.body.style.overflow='hidden';if(!mCard)mCard=await initCard('msqcard')}
+async function openModal(v){curV=v;document.getElementById('mvar').textContent=`L-50 ${v} · Pair · $6,400`;document.getElementById('mform').style.display='block';document.getElementById('msuccess').classList.remove('show');document.getElementById('modal').classList.add('show');document.body.style.overflow='hidden';if(!mCard)mCard=await initCard('msqcard')}
 function closeModal(){document.getElementById('modal').classList.remove('show');document.body.style.overflow=''}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal()});
-async function pay(card,name,email,variant,err,btn){if(!name||!email){err.textContent='Please enter name and email.';return false}if(!card){err.textContent='Payment loading. Try again in a moment.';return false}btn.disabled=true;btn.textContent='Processing…';try{const r=await card.tokenize();if(r.status==='OK'){await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sourceId:r.token,amount:320000,currency:'USD',buyerName:name,buyerEmail:email,variant})});return true}else{err.textContent=r.errors?.[0]?.message||'Card error.';btn.disabled=false;btn.textContent='Complete Order · $3,200';return false}}catch(e){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Complete Order · $3,200';return false}}
+async function pay(card,name,email,variant,err,btn){if(!name||!email){err.textContent='Please enter name and email.';return false}if(!card){err.textContent='Payment loading. Try again in a moment.';return false}btn.disabled=true;btn.textContent='Processing…';try{const r=await card.tokenize();if(r.status==='OK'){await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sourceId:r.token,amount:320000,currency:'USD',buyerName:name,buyerEmail:email,variant})});return true}else{err.textContent=r.errors?.[0]?.message||'Card error.';btn.disabled=false;btn.textContent='Complete Order · $6,400';return false}}catch(e){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Complete Order · $6,400';return false}}
 async function doPay(){const name=(document.getElementById('fn').value+' '+document.getElementById('ln').value).trim();const email=document.getElementById('em').value.trim();const ok=await pay(iCard,name,email,document.getElementById('variant').value,document.getElementById('sqerr'),document.getElementById('paybtn'));if(ok){document.getElementById('oform').style.display='none';document.getElementById('sinline').classList.add('show')}}
 async function doModalPay(){const ok=await pay(mCard,document.getElementById('mname').value.trim(),document.getElementB

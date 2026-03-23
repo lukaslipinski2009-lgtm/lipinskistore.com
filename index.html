@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,6 +173,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
   .scroll-hint{left:24px}
 }
 </style>
+<script src="https://web.squarecdn.com/v1/square.js"></script>
 </head>
 <body>
 
@@ -394,7 +394,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
       <h2 class="order-title reveal">ORDER<br>THE<br>L-50</h2>
       <p class="order-text reveal">Each unit hand-inspected at our Washington DC facility. Free insured shipping within the continental US. Our team contacts you within one business day.</p>
       <div class="order-links reveal">
-       <a href="mailto:getinfo@lipinskisound.com">getinfo@lipinskisound.com</a>
+       <a href="/cdn-cgi/l/email-protection#bcdbd9c8d5d2dad3fcd0d5ccd5d2cfd7d5cfd3c9d2d892dfd3d1"><span class="__cf_email__" data-cfemail="ee898b9a87808881ae82879e87809d85879d819b808ac08d8183">[email&#160;protected]</span></a>
         <a href="tel:9172099269">+1 (917) 209-9269</a>
         <a href="https://lipinskisound.com" target="_blank" rel="noopener noreferrer">lipinskisound.com</a>
       </div>
@@ -418,8 +418,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
           <option value="Obsidian Black">L-50 Obsidian Black — $6,400 / pair</option>
           <option value="Arctic White">L-50 Arctic White — $6,400 / pair</option>
         </select>
+        <label class="form-label" style="margin-top:4px">Card Details</label>
+        <div id="sq-card-inline" style="margin-bottom:8px"></div>
         <div class="form-error" id="orderError" style="display:none"></div>
-        <button class="form-submit" onclick="submitOrder()">Complete Order · $6,400</button>
+        <button class="form-submit" id="orderBtn" onclick="submitOrder()">Complete Order · $6,400</button>
         <p class="form-secure">🔒 Secured by SSL Encryption</p>
       </div>
       <div class="form-success" id="orderSuccess" style="display:none">
@@ -449,8 +451,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
       <input type="text" class="form-input" id="modalName" placeholder="Your full name" autocomplete="name" style="margin-bottom:16px"/>
       <label class="form-label">Email</label>
       <input type="email" class="form-input" id="modalEmail" placeholder="your@email.com" autocomplete="email" style="margin-bottom:16px"/>
+      <label class="form-label" style="margin-top:4px">Card Details</label>
+      <div id="sq-card-modal" style="margin-bottom:8px"></div>
       <div class="form-error" id="modalError" style="display:none"></div>
-      <button class="form-submit" onclick="submitModal()">Complete Order · $6,400</button>
+      <button class="form-submit" id="modalBtn" onclick="submitModal()">Complete Order · $6,400</button>
       <p class="form-secure">🔒 Secured by SSL Encryption</p>
     </div>
     <div class="form-success" id="modalSuccess" style="display:none">
@@ -461,7 +465,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 48px;display:fl
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── Scroll to section ── */
 function goTo(id){
   var el=document.getElementById(id);
@@ -561,13 +565,30 @@ function submitModal(){
   document.getElementById('modalSuccess').style.display='block';
 }
 
-/* ── Smooth anchor links ── */
-document.querySelectorAll('a[href^="#"]').forEach(function(a){
-  a.addEventListener('click',function(e){
-    e.preventDefault();
-    goTo(this.getAttribute('href').substring(1));
-  });
-});
+
+<script>
+/* ── Square Payment Integration ── */
+var SQ_APP='sq0idp-V7-Zqlr_SNklslIKLxPvfg';
+var SQ_LOC='LYAM6P1WT8R5R';
+var sqInline=null, sqModal=null;
+var sqSty={'.input-container':{borderColor:'#2e2c29',borderRadius:'0px'},'.input-container.is-focus':{borderColor:'#c09b5a'},'.input-container.is-error':{borderColor:'#e74c3c'},input:{backgroundColor:'#1c1c1c',color:'#f0ece4',fontFamily:'Jost,sans-serif',fontSize:'13px'},'input::placeholder':{color:'#2e2c29'}};
+function sqInit(id,cb){if(!window.Square){cb(null);return;}window.Square.payments(SQ_APP,SQ_LOC).card({style:sqSty}).then(function(card){card.attach('#'+id).then(function(){cb(card);}).catch(function(){cb(null);});}).catch(function(){cb(null);});}
+function sqPay(card,name,email,variant,errEl,btn,onOK){
+  if(!name||!email||email.indexOf('@')<0){errEl.textContent='Please enter your name and a valid email.';errEl.style.display='block';return;}
+  if(!card){errEl.textContent='Payment loading - please wait a moment and try again.';errEl.style.display='block';return;}
+  btn.disabled=true;btn.textContent='Processing...';errEl.style.display='none';
+  card.tokenize().then(function(r){
+    if(r.status==='OK'){
+      fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sourceId:r.token,amount:640000,currency:'USD',buyerName:name,buyerEmail:email,variant:variant})})
+      .then(function(res){return res.json().then(function(d){return{ok:res.ok,d:d};});})
+      .then(function(x){if(x.ok){onOK();}else{errEl.textContent=(x.d&&x.d.error)||'Payment failed.';errEl.style.display='block';btn.disabled=false;btn.textContent='Complete Order';;}})
+      .catch(function(){errEl.textContent='Network error. Try again.';errEl.style.display='block';btn.disabled=false;btn.textContent='Complete Order';;});
+    }else{errEl.textContent=(r.errors&&r.errors[0])?r.errors[0].message:'Card error.';errEl.style.display='block';btn.disabled=false;btn.textContent='Complete Order';;}}
+  ).catch(function(){errEl.textContent='An error occurred. Try again.';errEl.style.display='block';btn.disabled=false;btn.textContent='Complete Order';;});
+}
+(new IntersectionObserver(function(entries){if(entries[0].isIntersecting&&!sqInline){sqInit('sq-card-inline',function(c){sqInline=c;});}},{threshold:0.1,root:document.getElementById('scroller')})).observe(document.getElementById('s8'));
+function submitOrder(){var f=document.getElementById('orderFirst').value.trim();var l=document.getElementById('orderLast').value.trim();var e=document.getElementById('orderEmail').value.trim();var v=document.getElementById('orderVariant').value;sqPay(sqInline,f+' '+l,e,v,document.getElementById('orderError'),document.getElementById('orderBtn'),function(){document.getElementById('orderForm').style.display='none';document.getElementById('orderSuccess').style.display='block';});}
+var _origOpen=openModal;
+function openModal(variant){_origOpen(variant);if(!sqModal){sqInit('sq-card-modal',function(c){sqModal=c;});}}
+function submitModal(){var n=document.getElementById('modalName').value.trim();var e=document.getElementById('modalEmail').value.trim();sqPay(sqModal,n,e,modalVariant,document.getElementById('modalError'),document.getElementById('modalBtn'),function(){document.getElementById('modalForm').style.display='none';document.getElementById('modalSuccess').style.display='block';});}
 </script>
-</body>
-</html>

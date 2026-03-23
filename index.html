@@ -218,6 +218,28 @@ body {
     </div>
   </section>
 
+    <!-- ── MICROSCOPE SECTION ── -->
+  <section id="sMicro" class="snap-section" style="background:#0a0907;">
+    <div class="grid-2" style="gap:0;">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:64px;border-right:1px solid var(--dark-400);">
+        <p style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">The Microscope</p>
+        <h2 class="font-display" style="font-size:clamp(44px,6vw,80px);line-height:.9;color:var(--cream);margin-bottom:28px;">STOP GUESSING.<br/>START <span style="color:var(--gold);">HEARING.</span></h2>
+        <p style="font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:24px;">
+          The Lipinski L-50 isn't just a monitor — it's a surgical tool for the most demanding
+          mastering and mixing environments. While other manufacturers rely on DSP to "fix"
+          physical limitations, Lipinski uses pure, high-voltage analog engineering to achieve
+          vanishingly low distortion and phase coherency.
+        </p>
+        <p style="font-size:13px;color:var(--muted);line-height:1.9;">
+          In a small-to-mid-sized control room or a high-end mobile rig, space is a premium,
+          but accuracy cannot be sacrificed. The L-50 provides the micro-detail and "microscope"
+          effect usually reserved for massive, six-figure soffit-mounted systems.
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:64px;background:#0a0a0a;" id="featuresCol"></div>
+    </div>
+  </section>
+  
   <!-- ── HERO SECTION ── -->
   <section id="s1" class="snap-section" style="background:var(--dark);display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 80px;">
     <div class="hero-glow"></div>
@@ -240,28 +262,6 @@ body {
     <div class="fade-in-up" style="position:absolute;bottom:40px;left:48px;display:flex;align-items:center;gap:14px;z-index:10;animation-delay:1.3s;">
       <div class="gold-hline animate-pulse-line"></div>
       <span style="font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dark-500);">Scroll</span>
-    </div>
-  </section>
-
-    <!-- ── MICROSCOPE SECTION ── -->
-  <section id="sMicro" class="snap-section" style="background:#0a0907;">
-    <div class="grid-2" style="gap:0;">
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:64px;border-right:1px solid var(--dark-400);">
-        <p style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">The Microscope</p>
-        <h2 class="font-display" style="font-size:clamp(44px,6vw,80px);line-height:.9;color:var(--cream);margin-bottom:28px;">STOP GUESSING.<br/>START <span style="color:var(--gold);">HEARING.</span></h2>
-        <p style="font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:24px;">
-          The Lipinski L-50 isn't just a monitor — it's a surgical tool for the most demanding
-          mastering and mixing environments. While other manufacturers rely on DSP to "fix"
-          physical limitations, Lipinski uses pure, high-voltage analog engineering to achieve
-          vanishingly low distortion and phase coherency.
-        </p>
-        <p style="font-size:13px;color:var(--muted);line-height:1.9;">
-          In a small-to-mid-sized control room or a high-end mobile rig, space is a premium,
-          but accuracy cannot be sacrificed. The L-50 provides the micro-detail and "microscope"
-          effect usually reserved for massive, six-figure soffit-mounted systems.
-        </p>
-      </div>
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:64px;background:#0a0a0a;" id="featuresCol"></div>
     </div>
   </section>
   
@@ -553,7 +553,7 @@ body {
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── Scroll Navigation ── */
-const SECTION_IDS = ['sVideo','s1','sMicro','s2','s3','s4','s5','s6','sLifestyle','s7','s11'];
+const SECTION_IDS = ['sVideo','sMicro','s1','s2','s3','s4','s5','s6','sLifestyle','s7','s11'];
 const scroller = document.getElementById('scroller');
 
 function goTo(id) {

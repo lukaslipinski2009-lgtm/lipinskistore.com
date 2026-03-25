@@ -254,7 +254,7 @@ body {
     </h1>
     <p class="font-serif fade-in-up" style="font-style:italic;font-size:clamp(16px,2vw,24px);color:var(--muted);margin-top:20px;max-width:520px;line-height:1.6;position:relative;z-index:10;animation-delay:.7s;">
       The only Class A powered monitor in existence. Born from 20 years of acoustic research.
-      The secret weapon of the world's most demanding engineers.
+      The secret weapon of the world's most demanding engineers and Hi-End Hi-Fi connoisseurs.
     </p>
     <div class="fade-in-up" style="display:flex;align-items:center;gap:28px;margin-top:40px;position:relative;z-index:10;flex-wrap:wrap;animation-delay:.9s;">
       <a href="https://square.link/u/fCPiXYM5" target="_blank" rel="noopener noreferrer" style="padding:14px 44px;background:var(--gold);color:var(--dark);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;transition:background .3s;text-decoration:none;display:inline-block;">Order Now</a>
@@ -394,11 +394,114 @@ body {
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:2px;">
+
+<!-- Add this CSS somewhere in your <style> block or <head> -->
+<style>
+  #yt-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+  #yt-modal-overlay.active {
+    display: flex;
+  }
+  #yt-modal-box {
+    position: relative;
+    width: 480px;
+    max-width: 95vw;
+    background: #111;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  }
+  #yt-modal-box iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+  }
+  #yt-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10;
+    opacity: 0.8;
+  }
+  #yt-modal-close:hover { opacity: 1; }
+  .yt-trigger {
+    color: var(--gold, #c9a84c);
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .yt-trigger:hover { opacity: 0.8; }
+</style>
+
+<!-- YouTube Modal Overlay -->
+<div id="yt-modal-overlay" onclick="closeYTModal(event)">
+  <div id="yt-modal-box">
+    <button id="yt-modal-close" onclick="closeYTModal(null, true)">&#x2715;</button>
+    <iframe
+      id="yt-modal-iframe"
+      src=""
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<!-- Your existing card block with the linked name -->
+<div style="display:flex;flex-direction:column;gap:2px;">
+  <div class="heritage-stat" style="background:var(--dark-200);padding:28px 36px;display:flex;align-items:center;gap:28px;">
+    <div class="font-display" style="font-size:50px;color:var(--gold);line-height:1;min-width:86px;">Grammy</div>
+    <div>
+      <p style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);">Grammy Award</p>
+      <p style="font-size:11px;color:var(--dark-500);margin-top:4px;line-height:1.6;">
+        2026 Grammy recipients such as
+        <span class="yt-trigger" onclick="openYTModal()">Justin Gray</span>
+        use Lipinski
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  const YT_EMBED = "https://www.youtube.com/embed/_F0yWZUNpwc?autoplay=1&rel=0";
+
+  function openYTModal() {
+    document.getElementById("yt-modal-iframe").src = YT_EMBED;
+    document.getElementById("yt-modal-overlay").classList.add("active");
+  }
+
+  function closeYTModal(event, force) {
+    if (force || (event && event.target === document.getElementById("yt-modal-overlay"))) {
+      document.getElementById("yt-modal-iframe").src = ""; // stops video
+      document.getElementById("yt-modal-overlay").classList.remove("active");
+    }
+  }
+
+  // Also close on Escape key
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeYTModal(null, true);
+  });
+</script>
+        
         <div class="heritage-stat" style="background:var(--dark-200);padding:28px 36px;display:flex;align-items:center;gap:28px;">
-          <div class="font-display" style="font-size:50px;color:var(--gold);line-height:1;min-width:86px;">Multiple×</div>
+          <div class="font-display" style="font-size:50px;color:var(--gold);line-height:1;min-width:86px;">Grammy</div>
           <div>
             <p style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);">Grammy Award</p>
-            <p style="font-size:11px;color:var(--dark-500);margin-top:4px;line-height:1.6;">Grammy Winners such as Justin Gray use Lipinski</p>
+            <p style="font-size:11px;color:var(--dark-500);margin-top:4px;line-height:1.6;">2026 Grammy recipients such as Justin Gray use Lipinski</p>
           </div>
         </div>
         <div class="heritage-stat" style="background:var(--dark-200);padding:28px 36px;display:flex;align-items:center;gap:28px;">

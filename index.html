@@ -802,7 +802,9 @@ function slideTestimonial(dir) {
   document.getElementById('testimonialTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
   document.getElementById('slideNum').textContent = currentSlide + 1;
 }
-
+// Auto-advance every 3 seconds
+setInterval(() => slideTestimonial(1), 3000);
+  
 /* ── Order Form ── */
 function submitOrder() {
   const first = document.getElementById('orderFirst').value.trim();

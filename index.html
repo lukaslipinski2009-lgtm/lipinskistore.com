@@ -393,7 +393,9 @@ body {
           <img src="nyudolan.jpg" alt="Dr. Andrew Lipinski at NYU Dolan" style="width:100%;height:200px;object-fit:cover;opacity:.85;transition:opacity .5s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.85'" />
         </div>
       </div>
-      <<!-- YouTube Modal Overlay (outside the stat column) -->
+
+
+<!-- YouTube Modal Overlay -->
 <div id="yt-modal-overlay" onclick="closeYTModal(event)">
   <div id="yt-modal-box">
     <button id="yt-modal-close" onclick="closeYTModal(null, true)">&#x2715;</button>
@@ -406,38 +408,25 @@ body {
   </div>
 </div>
 
-<!-- All three stats in one column wrapper -->
-<div style="display:flex;flex-direction:column;gap:2px;">
+<script>
+  const YT_EMBED = "https://www.youtube.com/embed/_F0yWZUNpwc?autoplay=1&rel=0";
+  function openYTModal() {
+    document.getElementById("yt-modal-iframe").src = YT_EMBED;
+    document.getElementById("yt-modal-overlay").classList.add("active");
+  }
+  function closeYTModal(event, force) {
+    if (force || (event && event.target === document.getElementById("yt-modal-overlay"))) {
+      document.getElementById("yt-modal-iframe").src = "";
+      document.getElementById("yt-modal-overlay").classList.remove("active");
+    }
+  }
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeYTModal(null, true);
+  });
+</script>
 
-  <div class="heritage-stat" style="background:var(--dark-200);padding:28px 36px;display:flex;align-items:center;gap:28px;">
-    <div class="font-display" style="font-size:50px;color:var(--gold);line-height:1;min-width:86px;">Grammy</div>
-    <div>
-      <p style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);">Grammy Award</p>
-      <p style="font-size:11px;color:var(--dark-500);margin-top:4px;line-height:1.6;">
-        2026 Grammy recipients such as
-        <span class="yt-trigger" onclick="openYTModal()">Justin Gray</span>
-        use Lipinski
-      </p>
-    </div>
-  </div>
 
-  <div class="heritage-stat" style="background:var(--dark-200);padding:28px 36px;display:flex;align-items:center;gap:28px;">
-    <div class="font-display" style="font-size:50px;color:var(--gold);line-height:1;min-width:86px;">250+</div>
-    <div>
-      <p style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);">Mastering Studios</p>
-      <p style="font-size:11px;color:var(--dark-500);margin-top:4px;line-height:1.6;">Use Lipinski speakers today</p>
-    </div>
-  </div>
-
-  <div class="heritage-stat" style="background:var(--dark-200);padding:28px 36px;display:flex;align-items:center;gap:28px;">
-    <div class="font-display" style="font-size:50px;color:var(--gold);line-height:1;min-width:86px;">UMG</div>
-    <div>
-      <p style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);">Universal Music Group</p>
-      <p style="font-size:11px;color:var(--dark-500);margin-top:4px;line-height:1.6;">Universal Mastering Studios Uses Lipinski Signatures</p>
-    </div>
-  </div>
-
-</div>
+      
 <!-- ── LIFESTYLE ── -->
 
 <script>

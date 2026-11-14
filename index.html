@@ -921,14 +921,13 @@ var SITE = {
       env(g, t, peak, dur); n.connect(f); f.connect(g); g.connect(master);
       n.start(t, Math.random() * .5, dur + .05);
     }
-    function bass(t, freq) {
-      var o = actx.createOscillator(), f = actx.createBiquadFilter(), g = actx.createGain();
-      o.type = "triangle"; o.frequency.value = freq; f.type = "lowpass"; f.frequency.value = 520;
-      env(g, t, .34, .16); o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + .2);
-      /* sub-bass an octave below: felt on full-range speakers, silent on a phone */
-      var so = actx.createOscillator(), sg = actx.createGain();
-      so.type = "sine"; so.frequency.value = freq / 2;
-      env(sg, t, .5, .26); so.connect(sg); sg.connect(master); so.start(t); so.stop(t + .3);
+    function sub(t) {
+      /* one low note a bar, 41 Hz: felt on full-range speakers, silent on a phone */
+      var o = actx.createOscillator(), g = actx.createGain();
+      o.type = "sine"; o.frequency.value = 41.2;
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.6, t + .06);
+      g.gain.setValueAtTime(.6, t + .55); g.gain.exponentialRampToValueAtTime(.0001, t + .95);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + 1);
     }
     function stab(t, bar) {
       var notes = bar % 8 < 4 ? [220, 261.63, 329.63] : [196, 246.94, 329.63];
@@ -940,7 +939,6 @@ var SITE = {
       /* the filter opens and closes over sixteen bars */
       stabFilter.frequency.setTargetAtTime(520 + 1500 * (.5 - .5 * Math.cos(bar / 16 * Math.PI * 2)), t, .4);
     }
-    var BASS = [0, 0, 110, 110, 0, 0, 110, 0, 0, 0, 130.81, 110, 0, 0, 98, 0];
     function schedule() {
       while (nextTime < actx.currentTime + .12) {
         var s16 = step % 16, bar = Math.floor(step / 16);
@@ -948,7 +946,7 @@ var SITE = {
         if (s16 % 4 === 2) hit(nextTime, "highpass", 7500, .7, .16, .05);
         else if (bar >= 2 && s16 % 2 === 1) hit(nextTime, "highpass", 9000, .7, .05, .025);
         if (bar >= 4 && (s16 === 4 || s16 === 12)) hit(nextTime, "bandpass", 1700, 1.2, .2, .13);
-        if (bar >= 1 && BASS[s16]) bass(nextTime, BASS[s16]);
+        if (bar >= 1 && s16 === 2) sub(nextTime);
         if (bar >= 2 && (s16 === 3 || s16 === 10)) stab(nextTime, bar);
         nextTime += STEP; step++;
       }

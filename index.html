@@ -911,8 +911,8 @@ var SITE = {
     }
     function kick(t) {
       var o = actx.createOscillator(), g = actx.createGain();
-      o.type = "sine"; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(52, t + .11);
-      env(g, t, .95, .30); o.connect(g); g.connect(master); o.start(t); o.stop(t + .32);
+      o.type = "sine"; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(44, t + .13);
+      env(g, t, .95, .40); o.connect(g); g.connect(master); o.start(t); o.stop(t + .42);
       beat.kicks.push(t); if (beat.kicks.length > 12) beat.kicks.shift();
     }
     function hit(t, type, freq, q, peak, dur) {
@@ -925,6 +925,10 @@ var SITE = {
       var o = actx.createOscillator(), f = actx.createBiquadFilter(), g = actx.createGain();
       o.type = "triangle"; o.frequency.value = freq; f.type = "lowpass"; f.frequency.value = 520;
       env(g, t, .34, .16); o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + .2);
+      /* sub-bass an octave below: felt on full-range speakers, silent on a phone */
+      var so = actx.createOscillator(), sg = actx.createGain();
+      so.type = "sine"; so.frequency.value = freq / 2;
+      env(sg, t, .5, .26); so.connect(sg); sg.connect(master); so.start(t); so.stop(t + .3);
     }
     function stab(t, bar) {
       var notes = bar % 8 < 4 ? [220, 261.63, 329.63] : [196, 246.94, 329.63];

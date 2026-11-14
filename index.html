@@ -314,13 +314,30 @@ ul { list-style: none; }
 .founder cite { display: block; margin-top: 16px; font-style: normal; }
 .founder .bio { margin-top: clamp(24px, 3vw, 40px); max-width: var(--measure); }
 
+/* The family */
+.family { position: relative; background: var(--wall); padding-top: clamp(120px, 15vw, 210px); padding-bottom: clamp(40px, 6vw, 80px); }
+.family-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: center; }
+.family-pic img { width: 100%; height: auto; max-height: 620px; object-fit: cover; background: #d9cdbb; }
+.family-pic figcaption, .family-then figcaption { margin-top: 10px; font-family: var(--display); font-weight: 500; font-size: .92rem; }
+.family h2 { margin-bottom: 22px; }
+.family .lede + .lede { margin-top: 16px; }
+.family-facts { margin-top: clamp(24px, 3vw, 36px); border-top: 2px solid var(--black); max-width: var(--measure); }
+.family-facts li { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.family-then { display: flex; align-items: center; gap: 20px; margin-top: clamp(24px, 3vw, 36px); max-width: var(--measure); }
+.family-then img { flex: 0 0 auto; width: 150px; height: 150px; object-fit: cover; border-radius: 50%; background: #d9cdbb; }
+.family-then figcaption { margin-top: 0; }
+.family-pic.noimg, .family-then.noimg { display: none; }
+.family-grid:has(.family-pic.noimg) { grid-template-columns: minmax(0, 1fr); }
+.family .btn { margin-top: clamp(24px, 3vw, 36px); }
+.family .btn-coral:hover { background: var(--black); color: var(--white); }
+
 /* The hero's sine-wave sea, repeated as a band */
 .waves { position: absolute; left: 0; top: 0; width: 100%; height: clamp(72px, 9vw, 124px); pointer-events: none; }
 
 /* Listen in Miami */
 .miami {
   position: relative; background: var(--wall);
-  padding-top: clamp(120px, 15vw, 210px); padding-bottom: clamp(72px, 10vw, 140px);
+  padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(72px, 10vw, 140px);
 }
 .miami h2 { max-width: 13ch; }
 .miami .lede { margin-top: 22px; }
@@ -379,7 +396,7 @@ ul { list-style: none; }
   .nav.open { display: flex; }
   .nav a:not(.btn) { padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, .18); font-size: 1.05rem; }
   .nav .btn { margin-top: 16px; min-height: 50px; }
-  .work-grid, .made-grid, .prov-head, .founder, .acq-grid, .range-head { grid-template-columns: minmax(0, 1fr); }
+  .work-grid, .made-grid, .prov-head, .founder, .acq-grid, .range-head, .family-grid { grid-template-columns: minmax(0, 1fr); }
   .press-grid { grid-template-columns: minmax(0, 1fr); }
   .made-pic { position: static; max-width: 420px; }
   .ways { grid-template-columns: minmax(0, 1fr); }
@@ -419,6 +436,7 @@ ul { list-style: none; }
     <a href="#made">How it's made</a>
     <a href="#provenance">Provenance</a>
     <a href="#range">The powered line</a>
+    <a href="#family">The family</a>
     <a href="#miami">Listen in Miami</a>
     <a href="#acquire">Acquire</a>
     <a class="btn btn-coral" data-link="demo" href="#">Book a demo</a>
@@ -548,7 +566,6 @@ ul { list-style: none; }
         <p>“In the same league as the best loudspeakers I've ever heard.”</p>
         <cite>Bob Katz, Digital Domain, multiple Grammy winner</cite>
       </blockquote>
-      <p class="bio">LIPINSKI Sound was founded in 2003 in Bethesda, Maryland, by Dr. Andrew Lipinski, and is still run by the family from Washington, D.C.</p>
     </div>
   </div>
 </section>
@@ -594,9 +611,33 @@ ul { list-style: none; }
   <a class="btn btn-coral range-cta" data-link="demo" href="#">Book a demo at CasaHiFi</a>
 </section>
 
+<!-- THE FAMILY -->
+<section class="family wrap" id="family">
+  <canvas class="waves" data-tone="light" aria-hidden="true"></canvas>
+  <div class="family-grid">
+    <figure class="family-pic" data-imgwrap>
+      <img data-img="family" alt="Lukas and Andrew LIPINSKI in the studio" loading="lazy">
+      <figcaption>Lukas and Andrew Lipinski</figcaption>
+    </figure>
+    <div>
+      <h2 class="display h2">A father, a son, and their name on every speaker.</h2>
+      <p class="lede">LIPINSKI began because a recording engineer could not find monitors honest enough for his own sessions. Dr. Andrew Lipinski built them for himself. His son Lukas talked him into sharing them, and leads the company today.</p>
+      <p class="lede">So when you book a demo, the request goes to Lukas. There is no call centre and no sales script.</p>
+      <ul class="family-facts">
+        <li>Andrew was the only listener to earn a perfect score in the U.S. National Bureau of Standards' listening evaluation of phonographic recordings.</li>
+        <li>His recording of Penderecki's Credo is on Stereophile's list of the 75 greatest recordings of all time.</li>
+      </ul>
+      <figure class="family-then" data-imgwrap>
+        <img data-img="session" alt="Andrew LIPINSKI at work during an early surround recording session" loading="lazy">
+        <figcaption>Andrew in session, during one of his early analog surround recordings.</figcaption>
+      </figure>
+      <a class="btn btn-coral" data-link="demo" href="#">Book a demo with Lukas</a>
+    </div>
+  </div>
+</section>
+
 <!-- LISTEN IN MIAMI -->
 <section class="miami wrap" id="miami">
-  <canvas class="waves" data-tone="light" aria-hidden="true"></canvas>
   <h2 class="display h2">Hear it at CasaHiFi.</h2>
   <p class="lede">Our Florida dealer has the L-50, the Grand and the Signature on demonstration in Miami, through Art Week and after. Bring a record you know by heart. That is the fastest way to hear what they do.</p>
   <div class="ways">
@@ -715,6 +756,8 @@ var SITE = {
   images: {
     l50: BROCHURE.l50,
     table:    "l50-table.jpg",
+    family:   "https://lipinskisound.com/pliki/Lipinski_studio%206.jpg",   /* Lukas and Andrew, from lipinskisound.com */
+    session:  "https://lipinskisound.com/img/c/history_1.jpg",           /* Andrew in session */
     m_l50: BROCHURE.m_l50, m_l50r: BROCHURE.m_l50r, m_700: BROCHURE.m_700, m_700r: BROCHURE.m_700r,
     m_700g: BROCHURE.m_700g, m_700gr: BROCHURE.m_700gr, m_ps: BROCHURE.m_ps, m_psr: BROCHURE.m_psr,
     room:     "L50_High_End_NYC3.jpg",

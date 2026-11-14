@@ -926,8 +926,8 @@ var SITE = {
       /* one low note a bar: E at 41.2 Hz, the root of the chords and the pitch the kick lands on */
       var o = actx.createOscillator(), g = actx.createGain();
       o.type = "sine"; o.frequency.value = 41.2;
-      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.48, t + .06);
-      g.gain.setValueAtTime(.48, t + .55); g.gain.exponentialRampToValueAtTime(.0001, t + .95);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.384, t + .06);
+      g.gain.setValueAtTime(.384, t + .55); g.gain.exponentialRampToValueAtTime(.0001, t + .95);
       o.connect(g); g.connect(master); o.start(t); o.stop(t + 1);
     }
     function stab(t, bar) {

@@ -188,6 +188,20 @@ ul { list-style: none; }
 .hero-note p { max-width: 23rem; background: rgba(5, 15, 42, .82); padding: 8px 14px; border-radius: 12px; }
 .hero-note .hz { font-family: var(--display); font-weight: 700; white-space: nowrap; }
 
+.hero-sound { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+.sound {
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 46px; padding: 8px 20px; white-space: nowrap;
+  font-family: var(--display); font-weight: 700; font-size: .95rem;
+  color: var(--white); background: rgba(5, 15, 42, .82);
+  border: 2px solid var(--white); border-radius: 999px; cursor: pointer;
+}
+.sound:hover { background: var(--white); color: var(--black); }
+.sound[aria-pressed="true"] { background: var(--coral); border-color: var(--coral); color: var(--black); }
+.sound-dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+.sound[aria-pressed="true"] .sound-dot { animation: beat .492s linear infinite; }
+@keyframes beat { 0% { transform: scale(1.5); } 60%, 100% { transform: scale(.8); } }
+
 .rise { opacity: 0; transform: translateY(18px); animation: rise .9s cubic-bezier(.2, .7, .2, 1) forwards; }
 .rise.d1 { animation-delay: .25s; }
 .rise.d2 { animation-delay: .5s; }
@@ -421,6 +435,7 @@ ul { list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rise { animation: none; opacity: 1; transform: none; }
+  .sound[aria-pressed="true"] .sound-dot { animation: none; }
   .btn { transition: none; }
 }
 </style>
@@ -460,8 +475,11 @@ ul { list-style: none; }
     </div>
   </div>
   <div class="hero-note wrap">
-    <p>The water is drawn from sine waves. Each line is a frequency the L-50 plays. Move across it.</p>
-    <p class="hz">45 Hz at the horizon, 40 kHz at the shore</p>
+    <p id="hero-caption">The water is drawn from sine waves. Each line is a frequency the L-50 plays. Move across it.</p>
+    <div class="hero-sound">
+      <p class="hz">45 Hz at the horizon, 40 kHz at the shore</p>
+      <button class="sound" type="button" aria-pressed="false" hidden><span class="sound-dot" aria-hidden="true"></span><span class="sound-label">Sound on</span></button>
+    </div>
   </div>
 </section>
 
@@ -856,6 +874,106 @@ var SITE = {
   var bandTimer;
   window.addEventListener("resize", function () { clearTimeout(bandTimer); bandTimer = setTimeout(drawBands, 150); });
 
+  /* Sound: a minimal techno loop made in the browser. No audio file is loaded.
+     It starts only when the visitor presses the button. */
+  var beat = { on: false, actx: null, kicks: [] };
+  (function () {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    var btn = document.querySelector(".sound");
+    if (!AC || !btn) return;
+    btn.hidden = false;
+    var label = btn.querySelector(".sound-label");
+    var caption = document.getElementById("hero-caption");
+    var captionOff = caption ? caption.textContent : "";
+    var captionOn = "The water now moves to the beat. Imagine it on a pair of L-50s.";
+    var BPM = 122, STEP = 60 / BPM / 4;
+    var actx, master, noise, delay, stabFilter, timer, nextTime = 0, step = 0;
+
+    function build() {
+      actx = new AC(); beat.actx = actx;
+      var comp = actx.createDynamicsCompressor();
+      comp.threshold.value = -14; comp.ratio.value = 3; comp.attack.value = .005; comp.release.value = .2;
+      master = actx.createGain(); master.gain.value = 0;
+      master.connect(comp); comp.connect(actx.destination);
+      var len = actx.sampleRate, buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      noise = buf;
+      delay = actx.createDelay(1); delay.delayTime.value = STEP * 3;
+      var fb = actx.createGain(); fb.gain.value = .42;
+      var wet = actx.createGain(); wet.gain.value = .5;
+      delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
+      stabFilter = actx.createBiquadFilter(); stabFilter.type = "lowpass"; stabFilter.Q.value = 6; stabFilter.frequency.value = 700;
+      stabFilter.connect(master); stabFilter.connect(delay);
+    }
+    function env(g, t, peak, dur) {
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + .004);
+      g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    }
+    function kick(t) {
+      var o = actx.createOscillator(), g = actx.createGain();
+      o.type = "sine"; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(52, t + .11);
+      env(g, t, .95, .30); o.connect(g); g.connect(master); o.start(t); o.stop(t + .32);
+      beat.kicks.push(t); if (beat.kicks.length > 12) beat.kicks.shift();
+    }
+    function hit(t, type, freq, q, peak, dur) {
+      var n = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+      n.buffer = noise; f.type = type; f.frequency.value = freq; f.Q.value = q;
+      env(g, t, peak, dur); n.connect(f); f.connect(g); g.connect(master);
+      n.start(t, Math.random() * .5, dur + .05);
+    }
+    function bass(t, freq) {
+      var o = actx.createOscillator(), f = actx.createBiquadFilter(), g = actx.createGain();
+      o.type = "triangle"; o.frequency.value = freq; f.type = "lowpass"; f.frequency.value = 520;
+      env(g, t, .34, .16); o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + .2);
+    }
+    function stab(t, bar) {
+      var notes = bar % 8 < 4 ? [220, 261.63, 329.63] : [196, 246.94, 329.63];
+      var g = actx.createGain(); env(g, t, .11, .32); g.connect(stabFilter);
+      notes.forEach(function (fr) {
+        var o = actx.createOscillator(); o.type = "sawtooth"; o.frequency.value = fr; o.detune.value = (Math.random() - .5) * 14;
+        o.connect(g); o.start(t); o.stop(t + .36);
+      });
+      /* the filter opens and closes over sixteen bars */
+      stabFilter.frequency.setTargetAtTime(520 + 1500 * (.5 - .5 * Math.cos(bar / 16 * Math.PI * 2)), t, .4);
+    }
+    var BASS = [0, 0, 110, 110, 0, 0, 110, 0, 0, 0, 130.81, 110, 0, 0, 98, 0];
+    function schedule() {
+      while (nextTime < actx.currentTime + .12) {
+        var s16 = step % 16, bar = Math.floor(step / 16);
+        if (s16 % 4 === 0) kick(nextTime);
+        if (s16 % 4 === 2) hit(nextTime, "highpass", 7500, .7, .16, .05);
+        else if (bar >= 2 && s16 % 2 === 1) hit(nextTime, "highpass", 9000, .7, .05, .025);
+        if (bar >= 4 && (s16 === 4 || s16 === 12)) hit(nextTime, "bandpass", 1700, 1.2, .2, .13);
+        if (bar >= 1 && BASS[s16]) bass(nextTime, BASS[s16]);
+        if (bar >= 2 && (s16 === 3 || s16 === 10)) stab(nextTime, bar);
+        nextTime += STEP; step++;
+      }
+    }
+    function start() {
+      if (!actx) build();
+      if (actx.state === "suspended") actx.resume();
+      step = 0; nextTime = actx.currentTime + .08; beat.kicks = [];
+      master.gain.cancelScheduledValues(actx.currentTime);
+      master.gain.setValueAtTime(.0001, actx.currentTime);
+      master.gain.exponentialRampToValueAtTime(.55, actx.currentTime + 1.6);
+      schedule(); timer = setInterval(schedule, 25);
+      beat.on = true; btn.setAttribute("aria-pressed", "true"); label.textContent = "Sound off";
+      if (caption) caption.textContent = captionOn;
+    }
+    function stop() {
+      clearInterval(timer); beat.on = false;
+      if (actx) {
+        master.gain.cancelScheduledValues(actx.currentTime);
+        master.gain.setTargetAtTime(.0001, actx.currentTime, .12);
+        setTimeout(function () { if (!beat.on && actx.state === "running") actx.suspend(); }, 700);
+      }
+      btn.setAttribute("aria-pressed", "false"); label.textContent = "Sound on";
+      if (caption) caption.textContent = captionOff;
+    }
+    btn.addEventListener("click", function () { if (beat.on) stop(); else start(); });
+    document.addEventListener("visibilitychange", function () { if (document.hidden && beat.on) stop(); });
+  })();
+
   /* Hero: a sunset whose sea is drawn from sine waves */
   var canvas = document.getElementById("horizon");
   var ctx = canvas.getContext && canvas.getContext("2d");
@@ -914,7 +1032,14 @@ var SITE = {
     pointer.y += (pointer.ty - pointer.y) * .06;
     var px = pointer.x * W;
     var depth = H - horizon;
-    var energy = .55 + pointer.y * .9;
+    var pulse = 0;
+    if (beat.on && beat.actx) {
+      var nowA = beat.actx.currentTime;
+      for (var kk = beat.kicks.length - 1; kk >= 0; kk--) {
+        if (beat.kicks[kk] <= nowA) { pulse = Math.exp(-(nowA - beat.kicks[kk]) * 7); break; }
+      }
+    }
+    var energy = (.55 + pointer.y * .9) * (1 + pulse * 1.1);
     var step = W < 760 ? 5 : 4;
     for (var i = 0; i < LINES; i++) {
       var f = i / (LINES - 1);

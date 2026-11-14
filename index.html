@@ -47,8 +47,8 @@
   --dusk: #2b2470;
   --coral: #ff6a55;
   --coral-deep: #c93a28;
-  --seafoam: #c9ebe1;
-  --wall: #f6f7f4;
+  --deep: #050f2a;
+  --wall: #faf3e8;
   --black: #000;
   --white: #fff;
   --rule: rgba(0, 0, 0, .16);
@@ -266,7 +266,7 @@ ul { list-style: none; }
 .press-grid .who { font-family: var(--display); font-weight: 500; font-size: .92rem; margin-bottom: 8px; }
 
 /* The collection: drawn to relative height */
-.range { background: var(--seafoam); padding-top: clamp(72px, 10vw, 140px); padding-bottom: clamp(64px, 8vw, 110px); }
+.range { position: relative; background: var(--night); color: var(--white); padding-top: clamp(120px, 15vw, 210px); padding-bottom: clamp(64px, 8vw, 110px); }
 .range-head { display: grid; gap: 24px clamp(32px, 6vw, 96px); grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: end; }
 .lineup {
   --tall: clamp(300px, 31vw, 450px);
@@ -274,10 +274,10 @@ ul { list-style: none; }
   margin-top: clamp(40px, 6vw, 80px);
 }
 .model { display: flex; flex-direction: column; }
-.model .stage { height: var(--tall); display: flex; align-items: flex-end; justify-content: center; gap: clamp(8px, 1.4vw, 22px); border-bottom: 2px solid var(--black); }
+.model .stage { height: var(--tall); display: flex; align-items: flex-end; justify-content: center; gap: clamp(8px, 1.4vw, 22px); border-bottom: 2px solid currentColor; }
 .model .views { display: flex; justify-content: center; gap: clamp(8px, 1.4vw, 22px); margin-top: 8px; font-family: var(--display); font-weight: 500; font-size: .82rem; }
 .model .views span { flex: 0 1 6.5rem; text-align: center; }
-.model img { height: calc(var(--tall) * var(--h)); width: auto; max-width: none; filter: drop-shadow(0 18px 16px rgba(7, 23, 57, .28)); }
+.model img { height: calc(var(--tall) * var(--h)); width: auto; max-width: none; filter: drop-shadow(0 22px 20px rgba(0, 0, 0, .5)); }
 .model h3 { margin-top: 14px; font-family: var(--display); font-weight: 700; font-size: 1.08rem; line-height: 1.2; }
 .model p { font-size: .95rem; line-height: 1.4; margin-top: 4px; }
 .model .cost { font-family: var(--display); font-weight: 700; margin-top: 8px; }
@@ -314,10 +314,13 @@ ul { list-style: none; }
 .founder cite { display: block; margin-top: 16px; font-style: normal; }
 .founder .bio { margin-top: clamp(24px, 3vw, 40px); max-width: var(--measure); }
 
+/* The hero's sine-wave sea, repeated as a band */
+.waves { position: absolute; left: 0; top: 0; width: 100%; height: clamp(72px, 9vw, 124px); pointer-events: none; }
+
 /* Listen in Miami */
 .miami {
-  background: var(--coral);
-  padding-top: clamp(72px, 10vw, 140px); padding-bottom: clamp(72px, 10vw, 140px);
+  position: relative; background: var(--wall);
+  padding-top: clamp(120px, 15vw, 210px); padding-bottom: clamp(72px, 10vw, 140px);
 }
 .miami h2 { max-width: 13ch; }
 .miami .lede { margin-top: 22px; }
@@ -327,14 +330,16 @@ ul { list-style: none; }
   border-top: 2px solid var(--black);
 }
 .way { padding: 26px clamp(18px, 2.4vw, 34px) 8px 0; display: flex; flex-direction: column; align-items: flex-start; }
-.way + .way { padding-left: clamp(18px, 2.4vw, 34px); border-left: 1px solid rgba(0, 0, 0, .35); }
+.way + .way { padding-left: clamp(18px, 2.4vw, 34px); border-left: 1px solid var(--rule); }
 .way h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.35rem, 1rem + 1.1vw, 1.8rem); line-height: 1.1; }
 .way .where { font-family: var(--display); font-weight: 500; font-size: .98rem; margin-top: 8px; }
 .way p.body { margin-top: 14px; }
 .way .btn, .way .tlink { margin-top: 20px; }
 .way .btn + .tlink { margin-top: 14px; }
 .tlink { font-family: var(--display); font-weight: 700; text-underline-offset: 4px; text-decoration-thickness: 2px; }
-.tlink:hover { text-decoration-color: var(--white); }
+.tlink { text-decoration-color: var(--coral); }
+.tlink:hover { color: var(--coral-deep); }
+.miami .btn-coral:hover { background: var(--black); color: var(--white); }
 
 /* Acquire */
 .acq { position: relative; background: var(--night); color: var(--white); overflow: hidden; }
@@ -354,7 +359,7 @@ ul { list-style: none; }
 .acq-col .btn { margin-top: 24px; }
 
 /* Footer */
-.foot { background: var(--black); color: var(--white); padding-top: 54px; padding-bottom: 34px; font-size: 1rem; }
+.foot { background: var(--deep); color: var(--white); padding-top: 54px; padding-bottom: 34px; font-size: 1rem; }
 .foot-grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 28px 56px; }
 .foot address { font-style: normal; line-height: 1.7; }
 .foot a { text-underline-offset: 3px; }
@@ -379,7 +384,7 @@ ul { list-style: none; }
   .made-pic { position: static; max-width: 420px; }
   .ways { grid-template-columns: minmax(0, 1fr); }
   .way { padding: 26px 0 30px; }
-  .way + .way { padding-left: 0; border-left: 0; border-top: 1px solid rgba(0, 0, 0, .35); }
+  .way + .way { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
   .hero-note .hz { display: none; }
   .room img { height: 70vh; }
 }
@@ -550,6 +555,7 @@ ul { list-style: none; }
 
 <!-- THE COLLECTION -->
 <section class="range wrap" id="range">
+  <canvas class="waves" data-tone="dark" aria-hidden="true"></canvas>
   <div class="range-head">
     <h2 class="display h2">Turn one around. The amplifier is already there.</h2>
     <p class="lede">Every LIPINSKI in this line is powered. The Class A amplifiers are built into the back of the cabinet, so there is no rack of electronics to buy, place or hide. CasaHiFi has the L-50, the Grand and the Signature set up to hear.</p>
@@ -567,29 +573,30 @@ ul { list-style: none; }
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-700SE</h3>
       <p>Class A active monitor</p>
-      <p class="cost">$35,000 the pair</p>
+      <p class="cost">$17,500 each</p>
     </article>
     <article class="model">
       <div class="stage"><img data-img="m_700g" style="--h:0.700;--hm:0.850" alt="LIPINSKI L-700SE Grand, front" width="347" height="760"><img data-img="m_700gr" style="--h:0.684;--hm:0.831" alt="LIPINSKI L-700SE Grand, rear, showing the built-in Class A amplifier" width="355" height="743"></div>
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-700SE Grand</h3>
       <p>Class A active floor-standing</p>
-      <p class="cost">$68,000 the pair</p>
+      <p class="cost">$34,000 each</p>
     </article>
     <article class="model">
       <div class="stage"><img data-img="m_ps" style="--h:1.000;--hm:1.000" alt="LIPINSKI L-700SE Powered Signature, front" width="330" height="1040"><img data-img="m_psr" style="--h:0.982;--hm:0.982" alt="LIPINSKI L-700SE Powered Signature, rear, showing the built-in Class A amplifier" width="343" height="1021"></div>
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-700SE Powered Signature</h3>
       <p>Class A active flagship, with a separate L-401A amplifier for the bass section</p>
-      <p class="cost">From $100,000 the pair</p>
+      <p class="cost">From $50,000 each</p>
     </article>
   </div>
-  <p class="range-note">2026 list prices, before local taxes and transport. Every system is delivered with the Classic Mastering Tweeter, and the Audiophile Tweeter is available on request.</p>
-  <a class="btn btn-black range-cta" data-link="demo" href="#">Book a demo at CasaHiFi</a>
+  <p class="range-note">2026 list prices per speaker, before local taxes and transport. Every system is delivered with the Classic Mastering Tweeter, and the Audiophile Tweeter is available on request.</p>
+  <a class="btn btn-coral range-cta" data-link="demo" href="#">Book a demo at CasaHiFi</a>
 </section>
 
 <!-- LISTEN IN MIAMI -->
 <section class="miami wrap" id="miami">
+  <canvas class="waves" data-tone="light" aria-hidden="true"></canvas>
   <h2 class="display h2">Hear it at CasaHiFi.</h2>
   <p class="lede">Our Florida dealer has the L-50, the Grand and the Signature on demonstration in Miami, through Art Week and after. Bring a record you know by heart. That is the fastest way to hear what they do.</p>
   <div class="ways">
@@ -597,7 +604,7 @@ ul { list-style: none; }
       <h3>Book a demo</h3>
       <p class="where">CasaHiFi, 2610 S Dixie Hwy, Miami, FL 33133</p>
       <p class="body">Pick a time and we will confirm your session at CasaHiFi. Thirty minutes is enough to hear the L-50, then stay for the Grand and the Signature.</p>
-      <a class="btn btn-black" data-link="demo" href="#">Book a demo at CasaHiFi</a>
+      <a class="btn btn-coral" data-link="demo" href="#">Book a demo at CasaHiFi</a>
       <a class="tlink" data-link="casaPhone" href="#">Call <span data-text="casaPhone">CasaHiFi</span></a>
     </article>
     <article class="way">
@@ -776,6 +783,35 @@ var SITE = {
     }, { rootMargin: "200px" });
     vio.observe(vid);
   }
+
+  /* Wave bands: a still version of the hero's sea */
+  function band(c) {
+    var g = c.getContext && c.getContext("2d"); if (!g) return;
+    var r = c.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+    var w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height));
+    c.width = w * d; c.height = h * d; g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, w, h);
+    var dark = c.getAttribute("data-tone") === "dark", n = 11, cx = w * .72, half = Math.max(160, w * .3);
+    var edge = dark ? "rgba(201,235,225," : "rgba(7,23,57,";
+    for (var i = 0; i < n; i++) {
+      var f = i / (n - 1), y0 = h * (.14 + .72 * f), amp = h * .045 * (1 + f * 1.4);
+      var wl = 280 * Math.pow(.1, f) + 16, ph = i * 1.7;
+      var gr = g.createLinearGradient(cx - half, 0, cx + half, 0);
+      gr.addColorStop(0, edge + (.16 + f * .14) + ")");
+      gr.addColorStop(.5, "rgba(255,106,85," + (.95 - f * .2) + ")");
+      gr.addColorStop(1, edge + (.16 + f * .14) + ")");
+      g.strokeStyle = gr; g.lineWidth = .9 + f * .9; g.beginPath();
+      for (var x = -4; x <= w + 4; x += 4) {
+        var y = y0 + Math.sin(x / wl * Math.PI * 2 + ph) * amp;
+        if (x === -4) g.moveTo(x, y); else g.lineTo(x, y);
+      }
+      g.stroke();
+    }
+  }
+  var bands = $all("canvas.waves");
+  function drawBands() { bands.forEach(band); }
+  drawBands();
+  var bandTimer;
+  window.addEventListener("resize", function () { clearTimeout(bandTimer); bandTimer = setTimeout(drawBands, 150); });
 
   /* Hero: a sunset whose sea is drawn from sine waves */
   var canvas = document.getElementById("horizon");

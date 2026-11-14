@@ -912,7 +912,7 @@ var SITE = {
     }
     function kick(t) {
       var o = actx.createOscillator(), g = actx.createGain();
-      o.type = "sine"; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(44, t + .13);
+      o.type = "sine"; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(41.2, t + .13);
       env(g, t, .95, .40); o.connect(g); g.connect(master); o.start(t); o.stop(t + .42);
       beat.kicks.push(t); if (beat.kicks.length > 12) beat.kicks.shift();
     }
@@ -923,7 +923,7 @@ var SITE = {
       n.start(t, Math.random() * .5, dur + .05);
     }
     function sub(t) {
-      /* one low note a bar, 41 Hz: felt on full-range speakers, silent on a phone */
+      /* one low note a bar: E at 41.2 Hz, the root of the chords and the pitch the kick lands on */
       var o = actx.createOscillator(), g = actx.createGain();
       o.type = "sine"; o.frequency.value = 41.2;
       g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.6, t + .06);
@@ -931,7 +931,8 @@ var SITE = {
       o.connect(g); g.connect(master); o.start(t); o.stop(t + 1);
     }
     function stab(t, bar) {
-      var notes = bar % 8 < 4 ? [220, 261.63, 329.63] : [196, 246.94, 329.63];
+      /* E minor, then B minor over D: the 41.2 Hz low note is the key's root, E */
+      var notes = bar % 8 < 4 ? [164.81, 196, 246.94] : [146.83, 185, 246.94];
       var g = actx.createGain(); env(g, t, .11, .32); g.connect(stabFilter);
       notes.forEach(function (fr) {
         var o = actx.createOscillator(); o.type = "sawtooth"; o.frequency.value = fr; o.detune.value = (Math.random() - .5) * 14;

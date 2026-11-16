@@ -607,6 +607,7 @@ ul { list-style: none; }
 .order-pay { width: 100%; margin-top: 20px; }
 .order .btn-coral:hover { background: var(--black); color: var(--white); }
 .order-fine { margin-top: 12px; font-size: .88rem; line-height: 1.45; }
+@media (max-width: 759px) { .order-win { display: none; } }
 
 /* Questions */
 .faq { background: var(--wall); padding-top: clamp(72px, 10vw, 140px); padding-bottom: clamp(72px, 10vw, 140px); }
@@ -661,8 +662,12 @@ ul { list-style: none; }
 @media (max-width: 560px) {
   .order-top { grid-template-columns: minmax(0, 92px) minmax(0, 1fr); gap: 14px; }
   .order h3 { font-size: 1.12rem; }
-  .order.is-pair .order-top { grid-template-columns: minmax(0, 1fr); }
-  .order.is-pair .order-top img { max-width: 300px; }
+  /* Phones: picture above the name for one speaker and for a pair, in a box of one height, so the card does not jump when the choice changes */
+  .order-top, .order.is-pair .order-top { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .order-top img { width: 100%; max-width: 300px; height: 124px; object-fit: contain; object-position: left center; }
+  .order-qty button { font-size: .86rem; white-space: nowrap; padding: 0 6px; }
+  .order-pay { display: block; text-align: center; white-space: normal; line-height: 1.3; padding-top: 14px; padding-bottom: 14px; }
+  .order-incl { min-height: 4.2em; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
@@ -951,7 +956,7 @@ ul { list-style: none; }
           <li>Full refund if you send them back, no conditions</li>
         </ul>
         <a class="btn btn-coral order-pay" data-link="reserve" data-checkout href="#" rel="noopener">Reserve with Square,&nbsp;<span id="order-btn-price">$12,800</span></a>
-        <p class="order-fine">Secure checkout by Square opens in its own window, and this page stays open behind it. We confirm delivery and your audition dates by email.</p>
+        <p class="order-fine">Secure checkout by Square<span class="order-win"> opens in its own window, and this page stays open behind it</span>. We confirm delivery and your audition dates by email.</p>
       </div>
     </div>
   </div>

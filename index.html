@@ -574,7 +574,8 @@ ul { list-style: none; }
 .order-total { margin-top: 16px; font-family: var(--display); }
 #order-price { font-weight: 800; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem); letter-spacing: -.02em; }
 #order-unit { font-weight: 500; font-size: 1rem; }
-.order ul { margin-top: 12px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.order-incl { margin-top: 6px; font-family: var(--display); font-weight: 500; font-size: .98rem; line-height: 1.4; max-width: 34rem; }
+.order ul { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 12px; }
 .order li { padding-left: 1.3em; position: relative; }
 .order li::before { content: ""; position: absolute; left: 0; top: .62em; width: .55em; height: .55em; border-radius: 50%; background: var(--coral-deep); }
 .order-pay { width: 100%; margin-top: 20px; }
@@ -907,7 +908,7 @@ ul { list-style: none; }
           <img src="lipinski-l50-white-front-rear.webp" alt="LIPINSKI L-50 reference monitor, front and rear" width="1280" height="969" loading="lazy">
           <div>
             <h3>LIPINSKI L-50</h3>
-            <p>Class A active reference monitor, in Obsidian Black or Arctic White.</p>
+            <p>Powered Class A reference monitor with the amplifier built in. Obsidian Black or Arctic White.</p>
           </div>
         </div>
         <div class="order-qty" role="group" aria-label="How many" hidden>
@@ -915,6 +916,7 @@ ul { list-style: none; }
           <button type="button" data-qty="2" aria-pressed="false">A pair</button>
         </div>
         <p class="order-total"><span id="order-price">$6,400</span> <span id="order-unit">each</span></p>
+        <p class="order-incl" id="order-incl" aria-live="polite">One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy.</p>
         <ul>
           <li>30-day private audition at home or in your studio</li>
           <li>Complimentary insured delivery</li>
@@ -1090,6 +1092,9 @@ var SITE = {
       document.getElementById("order-price").textContent = money(each * n);
       document.getElementById("order-unit").textContent = n === 1 ? "each" : "the pair";
       document.getElementById("order-btn-price").textContent = money(each * n);
+      document.getElementById("order-incl").textContent = n === 1
+        ? "One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy."
+        : "Two powered speakers, each with its own Class A amplifier built in. No separate amps to buy.";
       pay.href = n === 2 ? SITE.links.reservePair : SITE.links.reserve;
     }
     if (SITE.links.reservePair) {

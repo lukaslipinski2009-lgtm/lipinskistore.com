@@ -528,7 +528,7 @@ ul { list-style: none; }
 .founder .bio { margin-top: clamp(24px, 3vw, 40px); max-width: var(--measure); }
 
 /* The family */
-.family { position: relative; background: var(--wall); padding-top: clamp(120px, 15vw, 210px); padding-bottom: clamp(40px, 6vw, 80px); }
+.family { position: relative; background: var(--wall); padding-top: clamp(120px, 15vw, 210px); padding-bottom: clamp(72px, 10vw, 140px); }
 .family-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: center; }
 .family-pic img { width: 100%; height: auto; max-height: 620px; object-fit: cover; background: #d9cdbb; }
 .family-pic figcaption { line-height: 1.45; max-width: 34rem; }
@@ -552,7 +552,7 @@ ul { list-style: none; }
 /* Listen in Miami */
 .miami {
   position: relative; background: var(--wall);
-  padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(72px, 10vw, 140px);
+  padding-top: clamp(72px, 10vw, 140px); padding-bottom: clamp(24px, 4vw, 56px);
 }
 .miami h2 { max-width: 13ch; }
 .miami .lede { margin-top: 22px; }
@@ -593,9 +593,9 @@ ul { list-style: none; }
 .order { background: var(--wall); color: var(--black); padding: clamp(20px, 2.6vw, 32px); border-radius: 6px; }
 .acq .order h3, .acq .order p, .acq .order li { text-shadow: none; }
 .order-where { font-family: var(--display); font-weight: 700; font-size: .92rem; }
-.order-top { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 18px; align-items: center; margin-top: 14px; }
-.order-top img { width: 100%; height: auto; }
-.order.is-pair .order-top { grid-template-columns: minmax(0, 290px) minmax(0, 1fr); }
+/* Picture above the name for one speaker and for a pair, in a box of one height, so the card does not jump when the choice changes */
+.order-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 14px; }
+.order-top img { width: 100%; max-width: 330px; height: 136px; object-fit: contain; object-position: left center; }
 .order h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.1; }
 .order-top p { margin-top: 6px; font-size: .98rem; line-height: 1.4; }
 .order-qty { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
@@ -637,6 +637,31 @@ ul { list-style: none; }
 .foot a:hover { color: var(--coral); }
 .fine { margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .25); font-size: .88rem; line-height: 1.5; color: rgba(255, 255, 255, .78); max-width: 60rem; }
 
+/* Phones: long lists open on request, and a booking bar stays at the foot of the screen */
+.more, .dock { display: none; }
+.ledger li:focus, .press-grid li:focus { outline: none; }
+@media (max-width: 760px) {
+  .js-more .ledger:not(.all) li:nth-child(n+5), .js-more .press-grid:not(.all) li:nth-child(n+5) { display: none; }
+  .js-more .more:not([hidden]) { display: inline-flex; margin-top: 20px; min-height: 46px; padding: 8px 22px; font-size: .95rem; }
+  .dock {
+    display: flex; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(5, 15, 42, .95); color: var(--white); border-top: 1px solid rgba(255, 255, 255, .22);
+    transform: translateY(110%); visibility: hidden; transition: transform .25s ease, visibility .25s;
+  }
+  .dock.on { transform: none; visibility: visible; }
+  body:has(.nav.open) .dock { transform: translateY(110%); visibility: hidden; }
+  .dock .btn { flex: 1 1 0; min-height: 46px; padding: 8px 10px; font-size: .92rem; }
+  .foot { padding-bottom: 104px; }
+  /* Small print on dark blue, a little larger */
+  .label { font-size: 1.06rem; }
+  .model p { font-size: 1.02rem; }
+  .model .views { font-size: .9rem; }
+  .range-note { font-size: 1.02rem; }
+  .press-grid .who { font-size: .98rem; }
+}
+@media (prefers-reduced-motion: reduce) { .dock { transition: none; } }
+
 /* Responsive */
 @media (max-width: 900px) {
   .menu-btn { display: inline-flex; align-items: center; }
@@ -665,11 +690,8 @@ ul { list-style: none; }
   .model img { height: calc(var(--tall) * var(--hm)); }
 }
 @media (max-width: 560px) {
-  .order-top { grid-template-columns: minmax(0, 92px) minmax(0, 1fr); gap: 14px; }
   .order h3 { font-size: 1.12rem; }
-  /* Phones: picture above the name for one speaker and for a pair, in a box of one height, so the card does not jump when the choice changes */
-  .order-top, .order.is-pair .order-top { grid-template-columns: minmax(0, 1fr); gap: 12px; }
-  .order-top img { width: 100%; max-width: 300px; height: 124px; object-fit: contain; object-position: left center; }
+  .order-top img { max-width: 300px; height: 124px; }
   .order-qty button { font-size: .86rem; white-space: nowrap; padding: 0 6px; }
   .order-pay { display: block; text-align: center; white-space: normal; line-height: 1.3; padding-top: 14px; padding-bottom: 14px; }
   .order-incl { min-height: 4.2em; }
@@ -698,10 +720,10 @@ ul { list-style: none; }
   <nav class="nav" id="nav" aria-label="Main">
     <a href="#l50">The L-50</a>
     <a href="#made">How it's made</a>
+    <a href="#miami">Listen in Miami</a>
     <a href="#provenance">Provenance</a>
     <a href="#range">The powered line</a>
     <a href="#family">The family</a>
-    <a href="#miami">Listen in Miami</a>
     <a href="#acquire">Acquire</a>
     <a href="#questions">Questions</a>
     <a class="btn btn-coral" data-link="demo" href="#">Book a demo</a>
@@ -718,7 +740,7 @@ ul { list-style: none; }
       <span class="rise">Sound,</span>
       <span class="l2 rise d1">exhibited.</span>
     </h1>
-    <p class="hero-sub rise d2">Hear what the mastering engineer heard. Private loudspeaker demos at CasaHiFi, Miami, during Art Basel week.</p>
+    <p class="hero-sub rise d2">Hear what the mastering engineer heard. Private loudspeaker demos at CasaHiFi, Miami, during Art Basel week, November 30 to December 6.</p>
     <div class="hero-cta rise d3">
       <a class="btn btn-coral" data-link="demo" href="#">Book a demo at CasaHiFi</a>
       <a class="btn btn-ghost" href="#l50">See the L-50</a>
@@ -804,6 +826,33 @@ ul { list-style: none; }
   <figcaption class="wrap"><p class="display">Made for control rooms. At home beside a collection.</p></figcaption>
 </figure>
 
+<!-- LISTEN IN MIAMI -->
+<section class="miami wrap" id="miami">
+  <h2 class="display h2">Hear it at CasaHiFi.</h2>
+  <p class="lede">Our Florida dealer has the L-50, the Grand and the Signature on demonstration in Miami, through Art Week and after. Bring a record you know by heart. That is the fastest way to hear what they do.</p>
+  <div class="ways">
+    <article class="way way-main">
+      <h3>Book a demo</h3>
+      <p class="where">CasaHiFi, 2610 S Dixie Hwy, Miami, FL 33133</p>
+      <p class="body">Pick a time and we will confirm your session at CasaHiFi. Thirty minutes is enough to hear the L-50, then stay for the Grand and the Signature.</p>
+      <a class="btn btn-coral" data-link="demo" href="#">Book a demo at CasaHiFi</a>
+      <a class="tlink" data-link="casaPhone" href="#">Call <span data-text="casaPhone">CasaHiFi</span></a>
+    </article>
+    <article class="way">
+      <h3>Hear one at work</h3>
+      <p class="where">STAND, a café in Coral Gables</p>
+      <p class="body">A LIPINSKI L-707 system is installed here. Go for breakfast, listen, then book the demo.</p>
+      <a class="tlink" data-link="demo" href="#">Book a demo at CasaHiFi</a>
+    </article>
+    <article class="way">
+      <h3>Questions first?</h3>
+      <p class="where">LIPINSKI Sound, Washington, D.C.</p>
+      <p class="body">Ask us about rooms, placement or Dolby Atmos layouts, and we will set up your visit to CasaHiFi.</p>
+      <a class="tlink" data-link="email" href="#">Email LIPINSKI</a>
+    </article>
+  </div>
+</section>
+
 <!-- PROVENANCE -->
 <section class="prov wrap" id="provenance">
   <div class="prov-head">
@@ -821,6 +870,7 @@ ul { list-style: none; }
     <li><strong>250+ mastering studios</strong><span>Including 2026 Grammy recipients such as Justin Gray</span></li>
     <li><strong>Also in use</strong><span>UC Berkeley and Gary Paczosa (Dolly Parton, Alison Krauss). Formerly used by Prince and at Justin Timberlake's studio on Sunset Boulevard.</span></li>
   </ul>
+  <button class="more btn btn-line" type="button" data-more hidden>Show all nine</button>
 
   <div class="press">
     <h3 class="display">Two decades in print.</h3>
@@ -832,6 +882,7 @@ ul { list-style: none; }
       <li><h4>DC HiFi</h4><p class="who">L-50, John Gatski</p><p>Judged the L-50 “a best-in-class speaker” for accuracy in a small footprint.</p></li>
       <li><h4>Pro Audio Review</h4><p class="who">L-301 amplifier, Bob Katz</p><p>Ranked among the best-sounding amplifiers the reviewer had heard.</p></li>
     </ul>
+    <button class="more btn btn-line" type="button" data-more hidden>Show all six</button>
   </div>
 
   <div class="founder" data-imgwrap>
@@ -908,33 +959,6 @@ ul { list-style: none; }
       </figure>
       <a class="btn btn-coral" data-link="demo" href="#">Book a demo with Lukas</a>
     </div>
-  </div>
-</section>
-
-<!-- LISTEN IN MIAMI -->
-<section class="miami wrap" id="miami">
-  <h2 class="display h2">Hear it at CasaHiFi.</h2>
-  <p class="lede">Our Florida dealer has the L-50, the Grand and the Signature on demonstration in Miami, through Art Week and after. Bring a record you know by heart. That is the fastest way to hear what they do.</p>
-  <div class="ways">
-    <article class="way way-main">
-      <h3>Book a demo</h3>
-      <p class="where">CasaHiFi, 2610 S Dixie Hwy, Miami, FL 33133</p>
-      <p class="body">Pick a time and we will confirm your session at CasaHiFi. Thirty minutes is enough to hear the L-50, then stay for the Grand and the Signature.</p>
-      <a class="btn btn-coral" data-link="demo" href="#">Book a demo at CasaHiFi</a>
-      <a class="tlink" data-link="casaPhone" href="#">Call <span data-text="casaPhone">CasaHiFi</span></a>
-    </article>
-    <article class="way">
-      <h3>Hear one at work</h3>
-      <p class="where">STAND, a café in Coral Gables</p>
-      <p class="body">A LIPINSKI L-707 system is installed here. Go for breakfast, listen, then book the demo.</p>
-      <a class="tlink" data-link="demo" href="#">Book a demo at CasaHiFi</a>
-    </article>
-    <article class="way">
-      <h3>Questions first?</h3>
-      <p class="where">LIPINSKI Sound, Washington, D.C.</p>
-      <p class="body">Ask us about rooms, placement or Dolby Atmos layouts, and we will set up your visit to CasaHiFi.</p>
-      <a class="tlink" data-link="email" href="#">Email LIPINSKI</a>
-    </article>
   </div>
 </section>
 
@@ -1046,6 +1070,12 @@ ul { list-style: none; }
   </div>
   <p class="fine">© <span id="year">2026</span> LIPINSKI Sound Corporation. LIPINSKI Square is a trademark of LIPINSKI Sound Corporation. LIPINSKI Sound is an independent company and is not affiliated with, sponsored by or endorsed by Art Basel or MCH Group.</p>
 </footer>
+
+<!-- Phones: booking and reserving stay one tap away -->
+<div class="dock" id="dock">
+  <a class="btn btn-coral" data-link="demo" href="#">Book a demo</a>
+  <a class="btn btn-ghost" href="#order">Reserve</a>
+</div>
 
 <script>
 /* ==================================================================
@@ -1170,6 +1200,26 @@ var SITE = {
       var win = window.open(pay.href, "lipinski-checkout", "popup=yes,width=" + w + ",height=" + h + ",left=" + Math.round(x) + ",top=" + Math.round(y));
       if (win) { e.preventDefault(); win.focus(); }   /* if the window was blocked, the link opens as usual */
     });
+  })();
+
+  /* Phones: open the long lists on request */
+  document.documentElement.classList.add("js-more");
+  $all("[data-more]").forEach(function (b) {
+    b.hidden = false;
+    b.addEventListener("click", function () {
+      var list = b.previousElementSibling; list.classList.add("all"); b.hidden = true;
+      var first = list.children[4]; if (first) { first.setAttribute("tabindex", "-1"); first.focus({ preventScroll: true }); }
+    });
+  });
+
+  /* Phones: the booking bar shows after the opening screen and steps aside at the order card */
+  (function () {
+    var dock = document.getElementById("dock"), hero = document.getElementById("top"), acq = document.getElementById("acquire");
+    if (!dock || !("IntersectionObserver" in window)) return;
+    var pastHero = false, atOrder = false;
+    function set() { dock.classList.toggle("on", pastHero && !atOrder); }
+    new IntersectionObserver(function (e) { pastHero = !e[0].isIntersecting; set(); }).observe(hero);
+    new IntersectionObserver(function (e) { atOrder = e[0].isIntersecting; set(); }).observe(acq);
   })();
 
   /* Mobile menu */

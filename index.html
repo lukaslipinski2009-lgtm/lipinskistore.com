@@ -905,27 +905,27 @@ ul { list-style: none; }
         <p>Florida orders go through CasaHiFi, our Florida dealer in Miami. Start with a demo there: the L-50, the Grand and the Signature are all set up.</p>
         <a class="btn btn-coral" data-link="demo" href="#">Book a demo at CasaHiFi</a>
       </div>
-      <div class="order" id="order">
+      <div class="order is-pair" id="order">
         <p class="order-where">Elsewhere in the continental US</p>
         <div class="order-top">
-          <img id="order-pic" src="lipinski-l50-white-front-rear.webp" alt="One LIPINSKI L-50, shown from the front and from the rear" width="1280" height="969" loading="lazy" data-w1="1280" data-h1="969" data-w2="960" data-h2="394">
+          <img id="order-pic" src="lipinski-l50-pair-front-rear.webp" alt="A pair of LIPINSKI L-50s side by side, with a rear view of each showing its amplifier panel" width="960" height="394" loading="lazy" data-w1="1280" data-h1="969" data-w2="960" data-h2="394">
           <div>
             <h3>LIPINSKI L-50</h3>
             <p>Powered Class A reference monitor with the amplifier built in. Obsidian Black or Arctic White.</p>
           </div>
         </div>
         <div class="order-qty" role="group" aria-label="How many" hidden>
-          <button type="button" data-qty="1" aria-pressed="true">One speaker</button>
-          <button type="button" data-qty="2" aria-pressed="false">A pair</button>
+          <button type="button" data-qty="1" aria-pressed="false">One speaker</button>
+          <button type="button" data-qty="2" aria-pressed="true">A pair</button>
         </div>
-        <p class="order-total"><span id="order-price">$6,400</span> <span id="order-unit">each</span></p>
-        <p class="order-incl" id="order-incl" aria-live="polite">One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy.</p>
+        <p class="order-total"><span id="order-price">$12,800</span> <span id="order-unit">the pair</span></p>
+        <p class="order-incl" id="order-incl" aria-live="polite">Two powered speakers, each with its own Class A amplifier built in. No separate amps to buy.</p>
         <ul>
           <li>30-day private audition at home or in your studio</li>
           <li>Complimentary insured delivery</li>
           <li>Full refund if you send them back, no conditions</li>
         </ul>
-        <a class="btn btn-coral order-pay" data-link="reserve" data-checkout href="#" rel="noopener">Reserve with Square,&nbsp;<span id="order-btn-price">$6,400</span></a>
+        <a class="btn btn-coral order-pay" data-link="reserve" data-checkout href="#" rel="noopener">Reserve with Square,&nbsp;<span id="order-btn-price">$12,800</span></a>
         <p class="order-fine">Secure checkout by Square opens in its own window, and this page stays open behind it. We confirm delivery and your audition dates by email.</p>
       </div>
     </div>
@@ -1089,7 +1089,7 @@ var SITE = {
   (function () {
     var card = document.getElementById("order"); if (!card) return;
     var pay = card.querySelector("[data-checkout]"), qty = card.querySelector(".order-qty");
-    var each = 6400, n = 1;
+    var each = 6400, n = SITE.links.reservePair ? 2 : 1;   /* a pair is the default when a pair link is set */
     function money(v) { return "$" + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
     function show() {
       document.getElementById("order-price").textContent = money(each * n);
@@ -1107,7 +1107,8 @@ var SITE = {
     }
     if (SITE.links.reservePair) {
       qty.hidden = false;
-      new Image().src = "lipinski-l50-pair-front-rear.webp";   /* fetch ahead so the swap is instant */
+      $all("button", qty).forEach(function (o) { o.setAttribute("aria-pressed", +o.getAttribute("data-qty") === n ? "true" : "false"); });
+      new Image().src = "lipinski-l50-white-front-rear.webp";   /* fetch ahead so the swap is instant */
       $all("button", qty).forEach(function (b) {
         b.addEventListener("click", function () {
           n = +b.getAttribute("data-qty");
@@ -1116,6 +1117,7 @@ var SITE = {
         });
       });
     }
+    show();
     pay.addEventListener("click", function (e) {
       /* Phones and narrow windows get a normal new tab. */
       if (window.innerWidth < 760) return;

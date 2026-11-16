@@ -442,6 +442,11 @@ ul { list-style: none; }
 .made-pic.noimg { display: none; }
 .made-grid:has(.made-pic.noimg) { grid-template-columns: minmax(0, 1fr); }
 .made h2 { margin-bottom: 22px; }
+.made-buy { margin-top: clamp(30px, 4vw, 48px); padding-top: 24px; border-top: 2px solid var(--black); }
+.made-price { font-family: var(--display); font-weight: 800; font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem); line-height: 1.2; }
+.made-terms { margin-top: 8px; max-width: 34rem; }
+.made-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+#order { scroll-margin-top: 24px; }
 .facts { margin-top: clamp(30px, 4vw, 52px); border-top: 2px solid var(--black); }
 .facts li {
   display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 8px 28px;
@@ -671,6 +676,7 @@ ul { list-style: none; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
+  .made-cta .btn { flex: 1 1 100%; }
   .facts li, .ledger li { grid-template-columns: minmax(0, 1fr); }
   .hero-note { font-size: .85rem; bottom: 16px; }
   .work-cta .btn, .acq-col .btn { width: 100%; }
@@ -780,6 +786,14 @@ ul { list-style: none; }
           <p>A neodymium ring radiator spreads high frequencies widely and evenly, up to 40 kHz.</p>
         </li>
       </ul>
+      <div class="made-buy">
+        <p class="made-price">$6,400 each, $12,800 the pair</p>
+        <p class="made-terms">Amplifier built in. 30-day audition at home, full refund if you send them back.</p>
+        <div class="made-cta">
+          <a class="btn btn-black" href="#order">Reserve a pair</a>
+          <a class="btn btn-line" data-link="demo" href="#">Hear it first in Miami</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>

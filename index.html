@@ -565,6 +565,7 @@ ul { list-style: none; }
 .order-where { font-family: var(--display); font-weight: 700; font-size: .92rem; }
 .order-top { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 18px; align-items: center; margin-top: 14px; }
 .order-top img { width: 100%; height: auto; }
+.order.is-pair .order-top { grid-template-columns: minmax(0, 290px) minmax(0, 1fr); }
 .order h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.1; }
 .order-top p { margin-top: 6px; font-size: .98rem; line-height: 1.4; }
 .order-qty { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
@@ -635,6 +636,8 @@ ul { list-style: none; }
 @media (max-width: 560px) {
   .order-top { grid-template-columns: minmax(0, 92px) minmax(0, 1fr); gap: 14px; }
   .order h3 { font-size: 1.12rem; }
+  .order.is-pair .order-top { grid-template-columns: minmax(0, 1fr); }
+  .order.is-pair .order-top img { max-width: 300px; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
@@ -905,7 +908,7 @@ ul { list-style: none; }
       <div class="order" id="order">
         <p class="order-where">Elsewhere in the continental US</p>
         <div class="order-top">
-          <img src="lipinski-l50-white-front-rear.webp" alt="LIPINSKI L-50 reference monitor, front and rear" width="1280" height="969" loading="lazy">
+          <img id="order-pic" src="lipinski-l50-white-front-rear.webp" alt="One LIPINSKI L-50, shown from the front and from the rear" width="1280" height="969" loading="lazy" data-w1="1280" data-h1="969" data-w2="960" data-h2="394">
           <div>
             <h3>LIPINSKI L-50</h3>
             <p>Powered Class A reference monitor with the amplifier built in. Obsidian Black or Arctic White.</p>
@@ -1092,6 +1095,11 @@ var SITE = {
       document.getElementById("order-price").textContent = money(each * n);
       document.getElementById("order-unit").textContent = n === 1 ? "each" : "the pair";
       document.getElementById("order-btn-price").textContent = money(each * n);
+      var pic = document.getElementById("order-pic");
+      pic.src = n === 1 ? "lipinski-l50-white-front-rear.webp" : "lipinski-l50-pair-front-rear.webp";
+      pic.width = pic.getAttribute(n === 1 ? "data-w1" : "data-w2"); pic.height = pic.getAttribute(n === 1 ? "data-h1" : "data-h2");
+      pic.alt = n === 1 ? "One LIPINSKI L-50, shown from the front and from the rear" : "A pair of LIPINSKI L-50s side by side, with a rear view of each showing its amplifier panel";
+      card.classList.toggle("is-pair", n === 2);
       document.getElementById("order-incl").textContent = n === 1
         ? "One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy."
         : "Two powered speakers, each with its own Class A amplifier built in. No separate amps to buy.";
@@ -1099,6 +1107,7 @@ var SITE = {
     }
     if (SITE.links.reservePair) {
       qty.hidden = false;
+      new Image().src = "lipinski-l50-pair-front-rear.webp";   /* fetch ahead so the swap is instant */
       $all("button", qty).forEach(function (b) {
         b.addEventListener("click", function () {
           n = +b.getAttribute("data-qty");

@@ -632,6 +632,8 @@ ul { list-style: none; }
   .model img { height: calc(var(--tall) * var(--hm)); }
 }
 @media (max-width: 560px) {
+  .order-top { grid-template-columns: minmax(0, 92px) minmax(0, 1fr); gap: 14px; }
+  .order h3 { font-size: 1.12rem; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }

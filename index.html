@@ -560,6 +560,26 @@ ul { list-style: none; }
 .acq-col li { padding-left: 1.3em; position: relative; }
 .acq-col li::before { content: ""; position: absolute; left: 0; top: .62em; width: .55em; height: .55em; border-radius: 50%; background: var(--coral); }
 .acq-col .btn { margin-top: 24px; }
+.order { background: var(--wall); color: var(--black); padding: clamp(20px, 2.6vw, 32px); border-radius: 6px; }
+.acq .order h3, .acq .order p, .acq .order li { text-shadow: none; }
+.order-where { font-family: var(--display); font-weight: 700; font-size: .92rem; }
+.order-top { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 18px; align-items: center; margin-top: 14px; }
+.order-top img { width: 100%; height: auto; }
+.order h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.1; }
+.order-top p { margin-top: 6px; font-size: .98rem; line-height: 1.4; }
+.order-qty { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+.order-qty[hidden] { display: none; }
+.order-qty button { min-height: 46px; font-family: var(--display); font-weight: 700; font-size: .95rem; color: var(--black); background: transparent; border: 2px solid var(--rule); border-radius: 999px; cursor: pointer; }
+.order-qty button[aria-pressed="true"] { border-color: var(--black); background: var(--black); color: var(--white); }
+.order-total { margin-top: 16px; font-family: var(--display); }
+#order-price { font-weight: 800; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem); letter-spacing: -.02em; }
+#order-unit { font-weight: 500; font-size: 1rem; }
+.order ul { margin-top: 12px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.order li { padding-left: 1.3em; position: relative; }
+.order li::before { content: ""; position: absolute; left: 0; top: .62em; width: .55em; height: .55em; border-radius: 50%; background: var(--coral-deep); }
+.order-pay { width: 100%; margin-top: 20px; }
+.order .btn-coral:hover { background: var(--black); color: var(--white); }
+.order-fine { margin-top: 12px; font-size: .88rem; line-height: 1.45; }
 
 /* Questions */
 .faq { background: var(--wall); padding-top: clamp(72px, 10vw, 140px); padding-bottom: clamp(72px, 10vw, 140px); }
@@ -879,14 +899,27 @@ ul { list-style: none; }
         <p>Florida orders go through CasaHiFi, our Florida dealer in Miami. Start with a demo there: the L-50, the Grand and the Signature are all set up.</p>
         <a class="btn btn-coral" data-link="demo" href="#">Book a demo at CasaHiFi</a>
       </div>
-      <div class="acq-col">
-        <h3>Elsewhere in the continental US</h3>
+      <div class="order" id="order">
+        <p class="order-where">Elsewhere in the continental US</p>
+        <div class="order-top">
+          <img src="lipinski-l50-white-front-rear.webp" alt="LIPINSKI L-50 reference monitor, front and rear" width="1280" height="969" loading="lazy">
+          <div>
+            <h3>LIPINSKI L-50</h3>
+            <p>Class A active reference monitor, in Obsidian Black or Arctic White.</p>
+          </div>
+        </div>
+        <div class="order-qty" role="group" aria-label="How many" hidden>
+          <button type="button" data-qty="1" aria-pressed="true">One speaker</button>
+          <button type="button" data-qty="2" aria-pressed="false">A pair</button>
+        </div>
+        <p class="order-total"><span id="order-price">$6,400</span> <span id="order-unit">each</span></p>
         <ul>
           <li>30-day private audition at home or in your studio</li>
           <li>Complimentary insured delivery</li>
           <li>Full refund if you send them back, no conditions</li>
         </ul>
-        <a class="btn btn-ghost" data-link="reserve" href="#" rel="noopener">Reserve online, $6,400 each</a>
+        <a class="btn btn-coral order-pay" data-link="reserve" data-checkout href="#" rel="noopener">Reserve with Square,&nbsp;<span id="order-btn-price">$6,400</span></a>
+        <p class="order-fine">Secure checkout by Square opens in its own window, and this page stays open behind it. We confirm delivery and your audition dates by email.</p>
       </div>
     </div>
   </div>
@@ -972,7 +1005,8 @@ var SITE = {
   links: {
     demo:      "https://calendly.com/lukas-lipinskisound/30min",   /* every "Book a demo" button */
     casaPhone: "tel:+17866185990",
-    reserve: "https://square.link/u/fCPiXYM5",
+    reserve: "https://square.link/u/fCPiXYM5",      /* Square link for ONE L-50 */
+    reservePair: "",                               /* Square link for a PAIR. Paste it here and the "One speaker / A pair" choice appears. */
     email:   "mailto:getinfo@lipinskisound.com?subject=Listening%20in%20Miami",
     phone:   "tel:+19172099269",
     site:    "https://www.lipinskisound.com/"
@@ -1043,6 +1077,38 @@ var SITE = {
     if (img.getAttribute("src") !== SITE.logo) img.src = SITE.logo;
   });
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* Order card: quantity choice and Square checkout in a window over the page */
+  (function () {
+    var card = document.getElementById("order"); if (!card) return;
+    var pay = card.querySelector("[data-checkout]"), qty = card.querySelector(".order-qty");
+    var each = 6400, n = 1;
+    function money(v) { return "$" + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+    function show() {
+      document.getElementById("order-price").textContent = money(each * n);
+      document.getElementById("order-unit").textContent = n === 1 ? "each" : "the pair";
+      document.getElementById("order-btn-price").textContent = money(each * n);
+      pay.href = n === 2 ? SITE.links.reservePair : SITE.links.reserve;
+    }
+    if (SITE.links.reservePair) {
+      qty.hidden = false;
+      $all("button", qty).forEach(function (b) {
+        b.addEventListener("click", function () {
+          n = +b.getAttribute("data-qty");
+          $all("button", qty).forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+          show();
+        });
+      });
+    }
+    pay.addEventListener("click", function (e) {
+      /* Phones and narrow windows get a normal new tab. */
+      if (window.innerWidth < 760) return;
+      var w = 520, h = Math.min(820, screen.availHeight - 60);
+      var x = (window.screenX || 0) + Math.max(0, (window.outerWidth - w) / 2), y = (window.screenY || 0) + Math.max(0, (window.outerHeight - h) / 2);
+      var win = window.open(pay.href, "lipinski-checkout", "popup=yes,width=" + w + ",height=" + h + ",left=" + Math.round(x) + ",top=" + Math.round(y));
+      if (win) { e.preventDefault(); win.focus(); }   /* if the window was blocked, the link opens as usual */
+    });
+  })();
 
   /* Mobile menu */
   var menuBtn = document.querySelector(".menu-btn");

@@ -198,7 +198,7 @@
      "name": "What is the LIPINSKI L-50, and how much does it cost?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and costs $6,400 each. Online it is sold as a turnkey, full-frequency system for $12,800: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Ultra streamer with cabling."
+      "text": "The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and is offered during Art Week as a turnkey, full-frequency system for $12,800: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Ultra streamer with cabling."
      }
     },
     {
@@ -494,6 +494,8 @@ ul { list-style: none; }
 .model h3 { margin-top: 14px; font-family: var(--display); font-weight: 700; font-size: 1.08rem; line-height: 1.2; }
 .model p { font-size: .95rem; line-height: 1.4; margin-top: 4px; }
 .model .cost { font-family: var(--display); font-weight: 700; margin-top: 8px; }
+.offer-link { color: var(--coral); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.offer-link:hover { color: var(--white); }
 .range-note { margin-top: clamp(28px, 4vw, 44px); font-size: .95rem; max-width: 44rem; }
 .range-cta { margin-top: 24px; }
 
@@ -772,7 +774,7 @@ ul { list-style: none; }
         <dd>45 Hz to 40 kHz</dd>
         <dd class="gap">Listed in the Dolby Atmos Room Design Tool loudspeaker catalogue</dd>
         <dd>Finishes: Obsidian Black, Arctic White</dd>
-        <dd class="price" data-text="l50price">$6,400 each</dd>
+        <dd class="price"><a class="offer-link" href="#order">Art Week offer: the complete system, $12,800</a></dd>
       </dl>
       <div class="work-cta">
         <a class="btn btn-coral" data-link="demo" href="#">Hear it at CasaHiFi</a>
@@ -911,7 +913,7 @@ ul { list-style: none; }
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-50</h3>
       <p>Class A active monitor</p>
-      <p class="cost" data-text="l50price">$6,400 each</p>
+      <p class="cost"><a class="offer-link" href="#order">Art Week offer: the complete system, $12,800</a></p>
     </article>
     <article class="model">
       <div class="stage"><img src="lipinski-l700se-front.webp" data-img="m_700" style="--h:0.350;--hm:0.600" alt="LIPINSKI L-700SE, front" width="254" height="400"><img src="lipinski-l700se-rear.webp" data-img="m_700r" style="--h:0.358;--hm:0.614" alt="LIPINSKI L-700SE, rear, showing the built-in Class A amplifier" width="268" height="409"></div>
@@ -1038,7 +1040,7 @@ ul { list-style: none; }
     </details>
     <details class="qa">
       <summary><h3>What is the LIPINSKI L-50, and how much does it cost?</h3></summary>
-      <p>The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and costs $6,400 each. Online it is sold as a turnkey, full-frequency system for $12,800: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Ultra streamer with cabling.</p>
+      <p>The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and is offered during Art Week as a turnkey, full-frequency system for $12,800: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Ultra streamer with cabling.</p>
     </details>
     <details class="qa">
       <summary><h3>Who uses LIPINSKI speakers?</h3></summary>
@@ -1102,8 +1104,7 @@ var SITE = {
   text: {
     email: "getinfo@lipinskisound.com",
     phone: "+1 (917) 209-9269",
-    casaPhone: "CasaHiFi, +1 (786) 618-5990",
-    l50price: "$6,400 each"   /* shown beside the L-50 in two places */
+    casaPhone: "CasaHiFi, +1 (786) 618-5990"
   },
   /* If the page sits in the same folder as the images you can shorten
      these to just the file names, e.g. "l50black.JPG". */

@@ -1319,10 +1319,17 @@ var SITE = {
       g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + .004);
       g.gain.exponentialRampToValueAtTime(.0001, t + dur);
     }
-    function kick(t) {
+    /* Kick: a sine falling to 36.71 Hz, with a second sine an octave up (73.42 Hz) so the body is heard on ordinary speakers too */
+    function kickPart(t, from, to, drop, peak, hold, len) {
       var o = actx.createOscillator(), g = actx.createGain();
-      o.type = "sine"; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(36.71, t + .13);
-      env(g, t, .95, .40); o.connect(g); g.connect(master); o.start(t); o.stop(t + .42);
+      o.type = "sine"; o.frequency.setValueAtTime(from, t); o.frequency.exponentialRampToValueAtTime(to, t + drop);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + .004);
+      g.gain.setValueAtTime(peak, t + hold); g.gain.exponentialRampToValueAtTime(.0001, t + len);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + len + .02);
+    }
+    function kick(t) {
+      kickPart(t, 150, 36.71, .13, .85, .06, .48);
+      kickPart(t, 225, 73.42, .091, .5, .06, .42);
       beat.kicks.push(t); if (beat.kicks.length > 12) beat.kicks.shift();
     }
     function hit(t, type, freq, q, peak, dur) {

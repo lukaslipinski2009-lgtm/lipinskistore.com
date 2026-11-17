@@ -1365,7 +1365,7 @@ var SITE = {
         else if (bar >= 2 && s16 % 2 === 1) hit(nextTime, "highpass", 9000, .7, .05, .025);
         if (bar >= 4 && (s16 === 4 || s16 === 12)) hit(nextTime, "bandpass", 1700, 1.2, .2, .13);
         if (bar >= 1 && s16 === 2) sub(nextTime);
-        if (bar >= 2 && (s16 === 3 || s16 === 10)) stab(nextTime, bar);
+        if (s16 === 3 || s16 === 10) stab(nextTime, bar);   /* the chord and its echo play from the first bar */
         nextTime += STEP; step++;
       }
     }

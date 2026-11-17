@@ -319,7 +319,8 @@ ul { list-style: none; }
   letter-spacing: .2em; text-decoration: none;
 }
 .wordmark { display: inline-flex; align-items: center; }
-.logo { position: relative; z-index: 20; height: 54px; width: auto; }
+.logo { position: relative; z-index: 20; height: 54px; width: auto; flex: none; }
+.wordmark { flex: none; }
 .logo.invert { filter: grayscale(1) invert(1); mix-blend-mode: screen; }
 .foot .logo { height: 68px; z-index: auto; }
 .lockup { display: none; position: relative; z-index: 20; flex-direction: column; align-items: stretch; line-height: 1; letter-spacing: .04em; font-size: 1.7rem; }
@@ -329,14 +330,14 @@ ul { list-style: none; }
 .logo-missing .logo { display: none; }
 .logo-missing .lockup { display: inline-flex; }
 .nav, .menu-btn { position: relative; z-index: 20; }
-.nav { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 34px); }
+.nav { display: flex; align-items: center; gap: clamp(14px, 1.7vw, 30px); }
 .nav a:not(.btn) {
-  font-family: var(--display); font-weight: 500; font-size: .95rem;
+  font-family: var(--display); font-weight: 500; font-size: .92rem; white-space: nowrap;
   text-decoration: none; padding: 8px 0;
   border-bottom: 2px solid transparent;
 }
 .nav a:not(.btn):hover { border-bottom-color: var(--coral); }
-.nav .btn { min-height: 44px; padding: 8px 20px; font-size: .95rem; }
+.nav .btn { min-height: 44px; padding: 8px 20px; font-size: .95rem; white-space: nowrap; }
 .menu-btn {
   display: none;
   min-height: 44px; padding: 8px 18px;
@@ -667,11 +668,12 @@ ul { list-style: none; }
 @media (prefers-reduced-motion: reduce) { .dock { transition: none; } }
 
 /* Responsive */
-@media (max-width: 900px) {
+/* The full menu needs about 1240px beside the logo; below that it folds into the Menu button */
+@media (max-width: 1240px) {
   .menu-btn { display: inline-flex; align-items: center; }
   .nav {
     display: none; z-index: 21;
-    position: absolute; top: 100%; left: var(--gutter); right: var(--gutter);
+    position: absolute; top: 100%; left: auto; right: var(--gutter); width: min(420px, calc(100% - 2 * var(--gutter)));
     flex-direction: column; align-items: stretch; gap: 0;
     background: var(--night); border: 1px solid rgba(255, 255, 255, .3); border-radius: 18px;
     padding: 10px 20px 20px;
@@ -679,6 +681,9 @@ ul { list-style: none; }
   .nav.open { display: flex; }
   .nav a:not(.btn) { padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, .18); font-size: 1.05rem; }
   .nav .btn { margin-top: 16px; min-height: 50px; }
+}
+@media (max-width: 380px) { .top .logo { height: 42px; } }
+@media (max-width: 900px) {
   .work-grid, .made-grid, .prov-head, .founder, .acq-grid, .range-head, .family-grid, .faq-grid { grid-template-columns: minmax(0, 1fr); }
   .press-grid { grid-template-columns: minmax(0, 1fr); }
   .made-pic { position: static; max-width: 420px; }
@@ -723,10 +728,10 @@ ul { list-style: none; }
   <nav class="nav" id="nav" aria-label="Main">
     <a href="#l50">The L-50</a>
     <a href="#made">How it's made</a>
-    <a href="#miami">Listen in Miami</a>
+    <a href="#miami">Miami</a>
     <a href="#provenance">Provenance</a>
-    <a href="#range">The powered line</a>
-    <a href="#family">The family</a>
+    <a href="#range">Powered line</a>
+    <a href="#family">Family</a>
     <a href="#acquire">Acquire</a>
     <a href="#questions">Questions</a>
     <a class="btn btn-coral" data-link="demo" href="#">Book a demo</a>

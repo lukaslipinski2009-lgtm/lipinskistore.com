@@ -102,14 +102,14 @@
     "@type": "Brand",
     "name": "LIPINSKI Sound"
    },
-   "description": "Two-way Class A active reference monitor with a sealed enclosure and neodymium ring-radiator tweeter. 45 Hz to 40 kHz. Priced per speaker.",
+   "description": "Two-way Class A active reference monitor with a sealed enclosure and neodymium ring-radiator tweeter. 45 Hz to 40 kHz. Sold online as a turnkey, full-frequency system: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Pro streamer with cabling.",
    "image": [
     "https://www.lipinskistore.com/l50black.JPG",
     "https://www.lipinskistore.com/l50white.JPG"
    ],
    "offers": {
     "@type": "Offer",
-    "price": "6400",
+    "price": "12800",
     "priceCurrency": "USD",
     "url": "https://www.lipinskistore.com/",
     "availability": "https://schema.org/InStock",
@@ -198,7 +198,7 @@
      "name": "What is the LIPINSKI L-50, and how much does it cost?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and costs $6,400 each."
+      "text": "The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and costs $6,400 each. Online it is sold as a turnkey, full-frequency system for $12,800: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Pro streamer with cabling."
      }
     },
     {
@@ -214,7 +214,7 @@
      "name": "Can I buy LIPINSKI speakers in Miami during Art Week?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes. Florida orders go through CasaHiFi in Miami, starting with a demo. Buyers elsewhere in the continental United States can reserve an L-50 online with a 30-day private audition, complimentary insured delivery and a full refund if they return it."
+      "text": "Yes. Florida orders go through CasaHiFi in Miami, starting with a demo. Buyers elsewhere in the continental United States can reserve the L-50 turnkey system online with a 30-day private audition, complimentary insured delivery and a full refund if they return it."
      }
     },
     {
@@ -604,10 +604,12 @@ ul { list-style: none; }
 .order-qty button[aria-pressed="true"] { border-color: var(--black); background: var(--black); color: var(--white); }
 .order-total { margin-top: 16px; font-family: var(--display); }
 #order-price { font-weight: 800; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem); letter-spacing: -.02em; }
-#order-unit { font-weight: 500; font-size: 1rem; }
+#order-unit { display: block; margin-top: 2px; font-weight: 500; font-size: 1rem; }
 .order-incl { margin-top: 6px; font-family: var(--display); font-weight: 500; font-size: .98rem; line-height: 1.4; max-width: 34rem; }
 .order ul { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 12px; }
 .order li { padding-left: 1.3em; position: relative; }
+.order-kit li + li { margin-top: 4px; }
+.order-kit li::before { background: var(--black); }
 .order li::before { content: ""; position: absolute; left: 0; top: .62em; width: .55em; height: .55em; border-radius: 50%; background: var(--coral-deep); }
 .order-pay { width: 100%; margin-top: 20px; }
 .order .btn-coral:hover { background: var(--black); color: var(--white); }
@@ -694,7 +696,6 @@ ul { list-style: none; }
   .order-top img { max-width: 300px; height: 124px; }
   .order-qty button { font-size: .86rem; white-space: nowrap; padding: 0 6px; }
   .order-pay { display: block; text-align: center; white-space: normal; line-height: 1.3; padding-top: 14px; padding-bottom: 14px; }
-  .order-incl { min-height: 8.4em; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
@@ -809,10 +810,10 @@ ul { list-style: none; }
         </li>
       </ul>
       <div class="made-buy">
-        <p class="made-price">$6,400 each, $12,800 the pair</p>
-        <p class="made-terms">Amplifier built in (a pair comes with a complimentary WiiM Pro streamer and cabling, for a complete, turnkey streaming system). 30-day audition at home, full refund if you send them back.</p>
+        <p class="made-price">$12,800 for the complete system</p>
+        <p class="made-terms">A pair of L-50s, a powered subwoofer and a WiiM Pro streamer with cabling: one turnkey, full-frequency audiophile system. 30-day audition at home, full refund if you send it back.</p>
         <div class="made-cta">
-          <a class="btn btn-black" href="#order">Reserve a pair</a>
+          <a class="btn btn-black" href="#order">Reserve the system</a>
           <a class="btn btn-line" data-link="demo" href="#">Hear it first in Miami</a>
         </div>
       </div>
@@ -980,19 +981,24 @@ ul { list-style: none; }
           <img id="order-pic" src="lipinski-l50-pair-front-rear.webp" alt="A pair of LIPINSKI L-50s side by side, with a rear view of each showing its amplifier panel" width="960" height="394" loading="lazy" data-w1="1280" data-h1="969" data-w2="960" data-h2="394">
           <div>
             <h3>LIPINSKI L-50</h3>
-            <p>Powered Class A reference monitor with the amplifier built in. Obsidian Black or Arctic White.</p>
+            <p>Turnkey full-frequency system. Speakers in Obsidian Black or Arctic White.</p>
           </div>
         </div>
         <div class="order-qty" role="group" aria-label="How many" hidden>
           <button type="button" data-qty="1" aria-pressed="false">One speaker</button>
           <button type="button" data-qty="2" aria-pressed="true">A pair</button>
         </div>
-        <p class="order-total"><span id="order-price">$12,800</span> <span id="order-unit">the pair</span></p>
-        <p class="order-incl" id="order-incl" aria-live="polite">Two powered speakers, each with its own Class A amplifier built in (plus a complimentary WiiM Pro streamer with cabling, for a complete, turnkey streaming system). No separate amps to buy.</p>
+        <p class="order-total"><span id="order-price">$12,800</span> <span id="order-unit">for the complete system</span></p>
+        <p class="order-incl" id="order-incl">One turnkey, full-frequency audiophile system for one price, from 24 Hz to 40 kHz.</p>
+        <ul class="order-kit">
+          <li>A pair of L-50 powered speakers, each with its own Class A amplifier built in</li>
+          <li>Proficient Reference FRS 10-inch powered subwoofer: 1,000 watts, bass down to 24 Hz, with app-based room correction, in piano black</li>
+          <li>WiiM Pro streamer and all cabling</li>
+        </ul>
         <ul>
           <li>30-day private audition at home or in your studio</li>
           <li>Complimentary insured delivery</li>
-          <li>Full refund if you send them back, no conditions</li>
+          <li>Full refund if you send it back, no conditions</li>
         </ul>
         <a class="btn btn-coral order-pay" data-link="reserve" data-checkout href="#" rel="noopener">Reserve with Square,&nbsp;<span id="order-btn-price">$12,800</span></a>
         <p class="order-fine">Secure checkout by Square<span class="order-win"> opens in its own window, and this page stays open behind it</span>. We confirm delivery and your audition dates by email.</p>
@@ -1032,7 +1038,7 @@ ul { list-style: none; }
     </details>
     <details class="qa">
       <summary><h3>What is the LIPINSKI L-50, and how much does it cost?</h3></summary>
-      <p>The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and costs $6,400 each.</p>
+      <p>The L-50 is a two-way active reference monitor and the only Class A active monitor in production. It covers 45 Hz to 40 kHz, uses the LIPINSKI Square amplifier with no integrated circuits in the signal path, and costs $6,400 each. Online it is sold as a turnkey, full-frequency system for $12,800: a pair of L-50s, a Proficient Reference FRS 10-inch powered subwoofer and a WiiM Pro streamer with cabling.</p>
     </details>
     <details class="qa">
       <summary><h3>Who uses LIPINSKI speakers?</h3></summary>
@@ -1040,7 +1046,7 @@ ul { list-style: none; }
     </details>
     <details class="qa">
       <summary><h3>Can I buy LIPINSKI speakers in Miami during Art Week?</h3></summary>
-      <p>Yes. Florida orders go through CasaHiFi in Miami, starting with a demo. Buyers elsewhere in the continental United States can reserve an L-50 online with a 30-day private audition, complimentary insured delivery and a full refund if they return it.</p>
+      <p>Yes. Florida orders go through CasaHiFi in Miami, starting with a demo. Buyers elsewhere in the continental United States can reserve the L-50 turnkey system online with a 30-day private audition, complimentary insured delivery and a full refund if they return it.</p>
     </details>
     <details class="qa">
       <summary><h3>Where else in Miami can I hear LIPINSKI?</h3></summary>
@@ -1168,16 +1174,13 @@ var SITE = {
     function money(v) { return "$" + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
     function show() {
       document.getElementById("order-price").textContent = money(each * n);
-      document.getElementById("order-unit").textContent = n === 1 ? "each" : "the pair";
+      document.getElementById("order-unit").textContent = n === 1 ? "each" : "for the complete system";
       document.getElementById("order-btn-price").textContent = money(each * n);
       var pic = document.getElementById("order-pic");
       pic.src = n === 1 ? "lipinski-l50-white-front-rear.webp" : "lipinski-l50-pair-front-rear.webp";
       pic.width = pic.getAttribute(n === 1 ? "data-w1" : "data-w2"); pic.height = pic.getAttribute(n === 1 ? "data-h1" : "data-h2");
-      pic.alt = n === 1 ? "One LIPINSKI L-50, shown from the front and from the rear" : "A pair of LIPINSKI L-50s side by side, with a rear view of each showing its amplifier panel";
+      pic.alt = n === 1 ? "One LIPINSKI L-50, shown from the front and from the rear" : "The pair of LIPINSKI L-50s in the system, side by side, with a rear view of each showing its amplifier panel";
       card.classList.toggle("is-pair", n === 2);
-      document.getElementById("order-incl").textContent = n === 1
-        ? "One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy (the complimentary WiiM Pro streamer with cabling comes with a pair)."
-        : "Two powered speakers, each with its own Class A amplifier built in (plus a complimentary WiiM Pro streamer with cabling, for a complete, turnkey streaming system). No separate amps to buy.";
       pay.href = n === 2 ? SITE.links.reservePair : SITE.links.reserve;
     }
     if (SITE.links.reservePair) {

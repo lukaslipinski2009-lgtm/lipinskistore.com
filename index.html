@@ -1181,9 +1181,8 @@ var SITE = {
       pay.href = n === 2 ? SITE.links.reservePair : SITE.links.reserve;
     }
     if (SITE.links.reservePair) {
-      qty.hidden = false;
+      /* The one-speaker choice is switched off: the card sells a pair only. Add "qty.hidden = false;" here to bring it back. */
       $all("button", qty).forEach(function (o) { o.setAttribute("aria-pressed", +o.getAttribute("data-qty") === n ? "true" : "false"); });
-      new Image().src = "lipinski-l50-white-front-rear.webp";   /* fetch ahead so the swap is instant */
       $all("button", qty).forEach(function (b) {
         b.addEventListener("click", function () {
           n = +b.getAttribute("data-qty");

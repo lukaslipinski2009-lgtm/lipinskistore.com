@@ -597,7 +597,7 @@ ul { list-style: none; }
 .order-where { font-family: var(--display); font-weight: 700; font-size: .92rem; }
 /* Picture above the name for one speaker and for a pair, in a box of one height, so the card does not jump when the choice changes */
 .order-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 14px; }
-.order-top img { width: 100%; max-width: 330px; height: 136px; object-fit: contain; object-position: left center; }
+.order-top img { display: block; width: 100%; max-width: 560px; height: auto; }
 .order h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.1; }
 .order-top p { margin-top: 6px; font-size: .98rem; line-height: 1.4; }
 .order-qty { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
@@ -695,7 +695,7 @@ ul { list-style: none; }
 }
 @media (max-width: 560px) {
   .order h3 { font-size: 1.12rem; }
-  .order-top img { max-width: 300px; height: 124px; }
+  .order-top img { max-width: 340px; }
   .order-qty button { font-size: .86rem; white-space: nowrap; padding: 0 6px; }
   .order-pay { display: block; text-align: center; white-space: normal; line-height: 1.3; padding-top: 14px; padding-bottom: 14px; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
@@ -980,7 +980,10 @@ ul { list-style: none; }
       <div class="order is-pair" id="order">
         <p class="order-where">Elsewhere in the continental US</p>
         <div class="order-top">
-          <img id="order-pic" src="lipinski-l50-pair-front-rear.webp" alt="A pair of LIPINSKI L-50s side by side, with a rear view of each showing its amplifier panel" width="960" height="394" loading="lazy" data-w1="1280" data-h1="969" data-w2="960" data-h2="394">
+          <picture>
+            <source media="(max-width: 560px)" srcset="lipinski-l50-system-stacked.webp" width="960" height="767">
+            <img id="order-pic" src="lipinski-l50-system-wide.webp" alt="The complete system: a pair of LIPINSKI L-50s with a rear view of each showing its amplifier panel, a piano-black powered subwoofer and a WiiM Ultra streamer" width="1702" height="394" loading="lazy">
+          </picture>
           <div>
             <h3>LIPINSKI L-50</h3>
             <p>Turnkey full-frequency system. Speakers in Obsidian Black or Arctic White.</p>
@@ -1177,10 +1180,6 @@ var SITE = {
       document.getElementById("order-price").textContent = money(each * n);
       document.getElementById("order-unit").textContent = n === 1 ? "each" : "for the complete system";
       document.getElementById("order-btn-price").textContent = money(each * n);
-      var pic = document.getElementById("order-pic");
-      pic.src = n === 1 ? "lipinski-l50-white-front-rear.webp" : "lipinski-l50-pair-front-rear.webp";
-      pic.width = pic.getAttribute(n === 1 ? "data-w1" : "data-w2"); pic.height = pic.getAttribute(n === 1 ? "data-h1" : "data-h2");
-      pic.alt = n === 1 ? "One LIPINSKI L-50, shown from the front and from the rear" : "The pair of LIPINSKI L-50s in the system, side by side, with a rear view of each showing its amplifier panel";
       card.classList.toggle("is-pair", n === 2);
       pay.href = n === 2 ? SITE.links.reservePair : SITE.links.reserve;
     }

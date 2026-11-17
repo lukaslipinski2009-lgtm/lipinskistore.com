@@ -694,7 +694,7 @@ ul { list-style: none; }
   .order-top img { max-width: 300px; height: 124px; }
   .order-qty button { font-size: .86rem; white-space: nowrap; padding: 0 6px; }
   .order-pay { display: block; text-align: center; white-space: normal; line-height: 1.3; padding-top: 14px; padding-bottom: 14px; }
-  .order-incl { min-height: 4.2em; }
+  .order-incl { min-height: 8.4em; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
@@ -810,7 +810,7 @@ ul { list-style: none; }
       </ul>
       <div class="made-buy">
         <p class="made-price">$6,400 each, $12,800 the pair</p>
-        <p class="made-terms">Amplifier built in. 30-day audition at home, full refund if you send them back.</p>
+        <p class="made-terms">Amplifier built in (a pair comes with a complimentary WiiM Pro streamer and cabling, for a complete, turnkey streaming system). 30-day audition at home, full refund if you send them back.</p>
         <div class="made-cta">
           <a class="btn btn-black" href="#order">Reserve a pair</a>
           <a class="btn btn-line" data-link="demo" href="#">Hear it first in Miami</a>
@@ -988,7 +988,7 @@ ul { list-style: none; }
           <button type="button" data-qty="2" aria-pressed="true">A pair</button>
         </div>
         <p class="order-total"><span id="order-price">$12,800</span> <span id="order-unit">the pair</span></p>
-        <p class="order-incl" id="order-incl" aria-live="polite">Two powered speakers, each with its own Class A amplifier built in. No separate amps to buy.</p>
+        <p class="order-incl" id="order-incl" aria-live="polite">Two powered speakers, each with its own Class A amplifier built in (plus a complimentary WiiM Pro streamer with cabling, for a complete, turnkey streaming system). No separate amps to buy.</p>
         <ul>
           <li>30-day private audition at home or in your studio</li>
           <li>Complimentary insured delivery</li>
@@ -1176,8 +1176,8 @@ var SITE = {
       pic.alt = n === 1 ? "One LIPINSKI L-50, shown from the front and from the rear" : "A pair of LIPINSKI L-50s side by side, with a rear view of each showing its amplifier panel";
       card.classList.toggle("is-pair", n === 2);
       document.getElementById("order-incl").textContent = n === 1
-        ? "One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy."
-        : "Two powered speakers, each with its own Class A amplifier built in. No separate amps to buy.";
+        ? "One powered speaker. Its Class A amplifier is built in, so there is no separate amp to buy (the complimentary WiiM Pro streamer with cabling comes with a pair)."
+        : "Two powered speakers, each with its own Class A amplifier built in (plus a complimentary WiiM Pro streamer with cabling, for a complete, turnkey streaming system). No separate amps to buy.";
       pay.href = n === 2 ? SITE.links.reservePair : SITE.links.reserve;
     }
     if (SITE.links.reservePair) {

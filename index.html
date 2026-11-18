@@ -1297,7 +1297,7 @@ var SITE = {
     var captionOff = caption ? caption.textContent : "";
     var captionOn = "The water now moves to the beat. Imagine it on a pair of L-50s.";
     var BPM = 122, STEP = 60 / BPM / 4;
-    var actx, master, noise, delay, stabFilter, roomIn, timer, nextTime = 0, step = 0;
+    var actx, master, noise, delay, stabFilter, timer, nextTime = 0, step = 0;
 
     function build() {
       actx = new AC(); beat.actx = actx;
@@ -1327,7 +1327,7 @@ var SITE = {
         var hp = actx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 220;
         var lp = actx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 2200;
         var room = actx.createGain(); room.gain.value = .7;
-        stabFilter.connect(pre); wet.connect(pre); roomIn = pre; pre.connect(conv); conv.connect(hp); hp.connect(lp); lp.connect(room); room.connect(master);
+        stabFilter.connect(pre); wet.connect(pre); pre.connect(conv); conv.connect(hp); hp.connect(lp); lp.connect(room); room.connect(master);
       } catch (err) { /* no reverb on browsers that cannot build it; the loop still plays */ }
     }
     function env(g, t, peak, dur) {
@@ -1372,34 +1372,6 @@ var SITE = {
       /* the filter opens and closes over sixteen bars */
       stabFilter.frequency.setTargetAtTime(520 + 1500 * (.5 - .5 * Math.cos(bar / 16 * Math.PI * 2)), t, .4);
     }
-    /* Vocal chops: short voice-like hits on the off-beats, alternating B with the chord's low note, an octave up.
-       They enter after 64 beats (16 bars), play for 8 bars, then the whole 24-bar cycle repeats. */
-    function chop(t, freq) {
-      var src = actx.createGain(), mix = actx.createGain(), g = actx.createGain();
-      [-9, 9].forEach(function (d) {
-        var o = actx.createOscillator(); o.type = "sawtooth"; o.detune.value = d;
-        o.frequency.setValueAtTime(freq * 1.06, t); o.frequency.exponentialRampToValueAtTime(freq, t + .03);
-        o.connect(src); o.start(t); o.stop(t + .2);
-      });
-      /* three narrow bands shape the saw into a vowel; the lower two slide down, like "hey" closing to "ah" */
-      [[900, 720, 7, 1], [1500, 1100, 8, .6], [2800, 2800, 7, .3]].forEach(function (F) {
-        var b = actx.createBiquadFilter(), h = actx.createGain();
-        b.type = "bandpass"; b.Q.value = F[2]; h.gain.value = F[3];
-        b.frequency.setValueAtTime(F[0], t); b.frequency.exponentialRampToValueAtTime(F[1], t + .07);
-        src.connect(b); b.connect(h); h.connect(mix);
-      });
-      mix.connect(g);
-      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(1, t + .008); g.gain.exponentialRampToValueAtTime(.0001, t + .15);
-      var out = actx.createGain(); out.gain.value = 1.1; g.connect(out); out.connect(master);
-      var echo = actx.createGain(); echo.gain.value = .66; g.connect(echo); echo.connect(delay);
-      if (roomIn) { var rm = actx.createGain(); rm.gain.value = .77; g.connect(rm); rm.connect(roomIn); }
-    }
-    function chops(t, s16, bar) {
-      if (bar % 24 < 16) return;
-      var low = bar % 8 < 4 ? 164.81 : 185.00, at = [2, 6, 10, 14].indexOf(s16);
-      if (at >= 0) chop(t, (at % 2 ? low : 246.94) * 2);
-      if (s16 === 15) chop(t, 246.94 * 2);
-    }
     function schedule() {
       while (nextTime < actx.currentTime + .12) {
         var s16 = step % 16, bar = Math.floor(step / 16);
@@ -1409,7 +1381,6 @@ var SITE = {
         if (s16 === 4 || s16 === 12) hit(nextTime, "bandpass", 1700, 1.2, .2, .13);
         if (s16 === 2) sub(nextTime);
         if (s16 === 3 || s16 === 10) stab(nextTime, bar);   /* every part plays from the first beat, with no build-up */
-        chops(nextTime, s16, bar);
         nextTime += STEP; step++;
       }
     }

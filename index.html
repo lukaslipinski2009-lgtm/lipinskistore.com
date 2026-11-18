@@ -1311,7 +1311,7 @@ var SITE = {
       if (caption) caption.textContent = on ? captionOn : captionOff;
     }
     function start() {
-      if (!audio) { audio = new Audio("lipinski-site-music.m4a"); audio.loop = true; audio.preload = "auto"; }
+      if (!audio) { audio = new Audio("lipinski-site-music-v2.m4a"); audio.loop = true; audio.preload = "auto"; }
       clearInterval(fade);
       try { audio.volume = LEVEL; } catch (e) {}
       var p = audio.play();

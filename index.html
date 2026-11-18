@@ -1364,7 +1364,7 @@ var SITE = {
     function stab(t, bar) {
       /* E minor, then B minor over D: the 36.7 Hz low note is a D, the bass note of the second chord */
       var notes = bar % 8 < 4 ? [164.81, 196, 246.94] : [146.83, 185, 246.94];
-      var g = actx.createGain(); env(g, t, .11, .32); g.connect(stabFilter);
+      var g = actx.createGain(); env(g, t, .14, .32); g.connect(stabFilter);   /* chord level: .11 was the original, .14 is about 2 dB louder */
       notes.forEach(function (fr) {
         var o = actx.createOscillator(); o.type = "sawtooth"; o.frequency.value = fr; o.detune.value = (Math.random() - .5) * 14;
         o.connect(g); o.start(t); o.stop(t + .36);

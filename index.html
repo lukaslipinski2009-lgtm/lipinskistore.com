@@ -610,7 +610,8 @@ ul { list-style: none; }
 .grow-stage { display: flex; flex-direction: column; align-items: stretch; margin-top: clamp(20px, 3vw, 36px); padding: clamp(14px, 2.4vw, 30px); border: 2px solid var(--coral); border-radius: 22px; background: linear-gradient(180deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .03)); box-shadow: 0 0 0 6px rgba(255, 106, 85, .12), 0 24px 50px rgba(0, 0, 0, .35); }
 .dialbox { position: relative; width: 250px; height: 178px; margin: 6px auto 0; flex: none; }
 .dialbox .knob { position: absolute; left: 50%; bottom: 0; width: 124px; height: 124px; margin-left: -62px; border-radius: 50%; border: 0; padding: 0; cursor: grab; touch-action: none;
-  background: radial-gradient(circle at 35% 28%, #55607c, #1b2440 58%, #0c1226); box-shadow: 0 0 0 3px var(--coral), 0 0 26px rgba(255, 106, 85, .55), 0 14px 26px rgba(0, 0, 0, .55), inset 0 2px 3px rgba(255, 255, 255, .25); transition: transform .28s cubic-bezier(.3, 1.4, .5, 1); }
+  background: radial-gradient(circle at 35% 28%, #55607c, #1b2440 58%, #0c1226); box-shadow: 0 0 0 3px var(--coral), 0 0 34px 6px rgba(255, 106, 85, .7), 0 0 56px 12px rgba(255, 106, 85, .26), 0 14px 26px rgba(0, 0, 0, .55), inset 0 0 22px rgba(255, 106, 85, .35), inset 0 2px 3px rgba(255, 255, 255, .25); transition: transform .28s cubic-bezier(.3, 1.4, .5, 1); animation: knobglow 2.4s ease-in-out infinite; }
+@keyframes knobglow { 0%, 100% { box-shadow: 0 0 0 3px var(--coral), 0 0 22px 2px rgba(255, 106, 85, .5), 0 0 40px 6px rgba(255, 106, 85, .16), 0 14px 26px rgba(0, 0, 0, .55), inset 0 0 14px rgba(255, 106, 85, .2), inset 0 2px 3px rgba(255, 255, 255, .25); } 50% { box-shadow: 0 0 0 3px var(--coral), 0 0 44px 10px rgba(255, 106, 85, .85), 0 0 64px 16px rgba(255, 106, 85, .34), 0 14px 26px rgba(0, 0, 0, .55), inset 0 0 30px rgba(255, 106, 85, .5), inset 0 2px 3px rgba(255, 255, 255, .25); } }
 .dialbox .word { position: absolute; left: 50%; bottom: 0; width: 124px; height: 124px; margin-left: -62px; display: flex; align-items: center; justify-content: center; padding-top: 14px; pointer-events: none; font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--white); letter-spacing: .01em; }
 .dialbox .halo { position: absolute; left: 50%; bottom: 0; width: 124px; height: 124px; margin-left: -62px; border-radius: 50%; border: 2px solid var(--coral); pointer-events: none; animation: dialhalo 1.9s ease-out infinite; }
 .dialbox.used .halo { display: none; }
@@ -633,7 +634,7 @@ ul { list-style: none; }
   .grow.dial ol { flex: 1; }
   .grow-stage .dialside { flex: none; }
 }
-@media (prefers-reduced-motion: reduce) { .grow.dial li, .grow.dial li.on, .dialbox .knob { transition: none; } .dialbox .halo { animation: none; opacity: .5; transform: scale(1.18); } }
+@media (prefers-reduced-motion: reduce) { .grow.dial li, .grow.dial li.on, .dialbox .knob { transition: none; } .dialbox .halo { animation: none; opacity: .5; transform: scale(1.18); } .dialbox .knob { animation: none; } }
 .model .fits { font-family: var(--display); font-weight: 700; font-size: .85rem; color: var(--coral); margin-top: 6px; }
 .lineup-title { margin-top: clamp(56px, 7vw, 96px); padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .35); font-family: var(--display); font-weight: 700; font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem); }
 .lineup-title + .lineup { margin-top: clamp(20px, 3vw, 36px); }

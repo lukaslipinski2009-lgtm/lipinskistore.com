@@ -572,6 +572,67 @@ ul { list-style: none; }
 .model .cost { font-family: var(--display); font-weight: 700; margin-top: 8px; }
 .offer-link { color: var(--coral); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .offer-link:hover { color: var(--white); }
+/* Modular path: the same speaker grows from one module to three, drawn large at relative height */
+.grow { margin-top: clamp(44px, 6vw, 84px); }
+.grow h3 { font-family: var(--display); font-weight: 700; font-size: clamp(1.35rem, 1rem + 1.5vw, 2.1rem); line-height: 1.15; max-width: 24ch; }
+.grow-text p { margin-top: 14px; max-width: var(--measure); }
+.grow ol { list-style: none; margin: clamp(28px, 4vw, 48px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(10px, 2.4vw, 36px); }
+.grow li { display: flex; flex-direction: column; }
+.grow .pic { --ph: clamp(330px, 38vw, 520px); height: var(--ph); display: flex; align-items: flex-end; justify-content: center; border-bottom: 2px solid var(--coral); }
+.grow .pic img { height: calc(var(--ph) * var(--h)); width: auto; max-width: none; filter: drop-shadow(0 16px 16px rgba(0, 0, 0, .5)); }
+.grow li p { margin-top: 3px; line-height: 1.3; text-align: center; }
+.grow .size { font-family: var(--display); font-weight: 700; color: var(--coral); font-size: .9rem; margin-top: 12px; }
+.grow .name { font-family: var(--display); font-weight: 700; font-size: 1.1rem; }
+.grow .mods { font-size: .95rem; }
+.grow li .cost { font-family: var(--display); font-weight: 700; font-size: .95rem; margin-top: 6px; }
+.grow .offer-foot { margin-top: clamp(22px, 3vw, 32px); max-width: var(--measure); }
+.grow .offer-foot a { color: var(--coral); }
+@media (min-width: 900px) {
+  /* wide screens: words on the left, the three speakers filling the right */
+  .grow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); grid-template-rows: 1fr 1fr; grid-template-areas: "text pics" "foot pics"; column-gap: clamp(40px, 6vw, 96px); }
+  .grow-text { grid-area: text; align-self: end; }
+  .grow ol { grid-area: pics; margin-top: 0; }
+  .grow .offer-foot { grid-area: foot; align-self: start; margin-top: 18px; }
+  .grow .pic { --ph: clamp(380px, 36vw, 540px); }
+}
+/* The dial: with scripting on, the three steps become one large stage and a rotary selector */
+.grow.dial ol { display: grid; grid-template-columns: minmax(0, 1fr); --stage: clamp(360px, 100vw, 430px); }
+.grow.dial li { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: scale(.94); transform-origin: 50% var(--stage); transition: opacity .32s ease, transform .32s ease, visibility 0s .32s; }
+.grow.dial li.on { opacity: 1; visibility: visible; transform: none; transition: opacity .32s ease, transform .32s ease; }
+.grow .pic .rear, .grow .views { display: none; }
+.grow.dial .pic { --ph: var(--stage); gap: clamp(14px, 4vw, 34px); }
+.grow.dial .pic .rear { display: block; }
+.grow.dial .views { display: flex; justify-content: center; gap: clamp(14px, 4vw, 34px); margin-top: 8px; font-family: var(--display); font-weight: 500; font-size: .82rem; }
+.grow.dial .views span { flex: 0 1 7.5rem; text-align: center; }
+.grow.dial .name { font-size: 1.35rem; }
+.grow.dial .size { font-size: 1rem; }
+.grow.dial .mods, .grow.dial li .cost { font-size: 1.05rem; }
+.grow-stage { display: flex; flex-direction: column; align-items: stretch; margin-top: clamp(20px, 3vw, 36px); }
+.dialbox { position: relative; width: 250px; height: 178px; margin: 6px auto 0; flex: none; }
+.dialbox .knob { position: absolute; left: 50%; bottom: 0; width: 124px; height: 124px; margin-left: -62px; border-radius: 50%; border: 0; padding: 0; cursor: grab; touch-action: none;
+  background: radial-gradient(circle at 35% 28%, #55607c, #1b2440 58%, #0c1226); box-shadow: 0 0 0 2px rgba(255, 255, 255, .28), 0 14px 26px rgba(0, 0, 0, .55), inset 0 2px 3px rgba(255, 255, 255, .25); transition: transform .28s cubic-bezier(.3, 1.4, .5, 1); }
+.dialbox .knob.drag { cursor: grabbing; transition: none; }
+.dialbox .knob::after { content: ""; position: absolute; left: 50%; top: 9px; width: 5px; height: 30px; margin-left: -2.5px; border-radius: 3px; background: var(--coral); }
+.dialbox .knob:focus-visible { outline: 3px solid var(--coral); outline-offset: 5px; }
+.dialbox .pos { position: absolute; background: none; border: 0; padding: 6px 4px; color: var(--white); opacity: .6; font-family: var(--display); font-weight: 700; font-size: .9rem; cursor: pointer; white-space: nowrap; }
+.dialbox .pos.on { color: var(--coral); opacity: 1; }
+.dialbox .pos:nth-of-type(1) { left: 0; top: 62px; }
+.dialbox .pos:nth-of-type(2) { left: 50%; top: 0; transform: translateX(-50%); }
+.dialbox .pos:nth-of-type(3) { right: 0; top: 62px; }
+.dial-hint { text-align: center; font-size: .9rem; opacity: .75; margin-top: 12px; }
+@media (min-width: 900px) {
+  .grow-stage { grid-area: pics; margin-top: 0; }
+  .grow.dial ol { --stage: clamp(400px, 36vw, 540px); }
+}
+@media (min-width: 1240px) {
+  .grow-stage { flex-direction: row; align-items: center; gap: clamp(16px, 3vw, 48px); }
+  .grow.dial ol { flex: 1; }
+  .grow-stage .dialside { flex: none; }
+}
+@media (prefers-reduced-motion: reduce) { .grow.dial li, .grow.dial li.on, .dialbox .knob { transition: none; } }
+.model .fits { font-family: var(--display); font-weight: 700; font-size: .85rem; color: var(--coral); margin-top: 6px; }
+.lineup-title { margin-top: clamp(56px, 7vw, 96px); padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .35); font-family: var(--display); font-weight: 700; font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem); }
+.lineup-title + .lineup { margin-top: clamp(20px, 3vw, 36px); }
 .range-note { margin-top: clamp(28px, 4vw, 44px); font-size: .95rem; max-width: 44rem; }
 .range-cta { margin-top: 24px; }
 
@@ -779,6 +840,9 @@ ul { list-style: none; }
   .order-qty button { font-size: .86rem; white-space: nowrap; padding: 0 6px; }
   .order-pay { display: block; text-align: center; white-space: normal; line-height: 1.3; padding-top: 14px; padding-bottom: 14px; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
+  .grow { grid-template-columns: minmax(0, 1fr); }
+  .grow .name { font-size: .95rem; }
+  .grow .size, .grow .mods, .grow li .cost { font-size: .82rem; }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
   .made-cta .btn { flex: 1 1 100%; }
@@ -1006,6 +1070,19 @@ ul { list-style: none; }
     <h2 class="display h2">Turn one around. The Class A amplifier is already there.</h2>
     <p class="lede">Every LIPINSKI in this line is powered. The Class A amplifiers are built into the back of the cabinet, so there is no rack of electronics to buy, place or hide. CasaHiFi has the L-50, the Grand and the Signature set up to hear.</p>
   </div>
+  <div class="grow">
+    <div class="grow-text">
+      <h3>Modular and stackable. One speaker that grows with your room.</h3>
+      <p>The modules stack like LEGO bricks. Start with the L-700SE, and when your room grows, add a module to the speaker you already own.</p>
+    </div>
+    <ol>
+      <li><div class="pic"><img src="lipinski-l700se-front.webp" style="--h:.36" alt="LIPINSKI L-700SE, one module" loading="lazy"><img class="rear" src="lipinski-l700se-rear.webp" style="--h:.368" alt="LIPINSKI L-700SE, rear, with its Class A amplifier" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Smaller room</p><p class="name">L-700SE</p><p class="mods">One module</p><p class="cost">$17,500 each</p></li>
+      <li><div class="pic"><img src="lipinski-l700se-grand-front.webp" style="--h:.72" alt="LIPINSKI L-700SE Grand, two modules stacked" loading="lazy"><img class="rear" src="lipinski-l700se-grand-rear.webp" style="--h:.704" alt="LIPINSKI L-700SE Grand, rear, with its Class A amplifiers" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Medium room</p><p class="name">L-700SE Grand</p><p class="mods">Two modules: add a bass module</p><p class="cost">$34,000 each</p></li>
+      <li><div class="pic"><img src="lipinski-signature-front.webp" style="--h:1" alt="LIPINSKI Signature, three modules stacked" loading="lazy"><img class="rear" src="lipinski-signature-rear.webp" style="--h:.982" alt="LIPINSKI Signature, rear, with its Class A amplifiers" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Larger room</p><p class="name">Signature</p><p class="mods">Three modules: add a second bass module</p><p class="cost">From $50,000 each</p></li>
+    </ol>
+    <p class="offer-foot">Buy the step that fits your room today and add the next module when you move up. Plan your path: <a href="mailto:getinfo@lipinskisound.com?subject=LIPINSKI%20modular%20path">getinfo@lipinskisound.com</a></p>
+  </div>
+  <h3 class="lineup-title">The whole powered line, front and rear</h3>
   <div class="lineup" tabindex="0" role="group" aria-label="The LIPINSKI Class A active line, each model shown from the front and the rear at relative height">
     <article class="model">
       <div class="stage"><img src="lipinski-l50-front.webp" data-img="m_l50" style="--h:0.250;--hm:0.500" alt="LIPINSKI L-50, front" width="239" height="320"><img src="lipinski-l50-rear.webp" data-img="m_l50r" style="--h:0.179;--hm:0.358" alt="LIPINSKI L-50, rear, showing the built-in Class A amplifier" width="181" height="229"></div>
@@ -1018,6 +1095,7 @@ ul { list-style: none; }
       <div class="stage"><img src="lipinski-l700se-front.webp" data-img="m_700" style="--h:0.350;--hm:0.600" alt="LIPINSKI L-700SE, front" width="254" height="400"><img src="lipinski-l700se-rear.webp" data-img="m_700r" style="--h:0.358;--hm:0.614" alt="LIPINSKI L-700SE, rear, showing the built-in Class A amplifier" width="268" height="409"></div>
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-700SE</h3>
+      <p class="fits">Step one, for smaller rooms</p>
       <p>Class A active monitor</p>
       <p class="cost">$17,500 each</p>
     </article>
@@ -1025,6 +1103,7 @@ ul { list-style: none; }
       <div class="stage"><img src="lipinski-l700se-grand-front.webp" data-img="m_700g" style="--h:0.700;--hm:0.850" alt="LIPINSKI L-700SE Grand, front" width="347" height="760"><img src="lipinski-l700se-grand-rear.webp" data-img="m_700gr" style="--h:0.684;--hm:0.831" alt="LIPINSKI L-700SE Grand, rear, showing the built-in Class A amplifier" width="355" height="743"></div>
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-700SE Grand</h3>
+      <p class="fits">Step two, for medium rooms</p>
       <p>Class A active floor-standing</p>
       <p class="cost">$34,000 each</p>
     </article>
@@ -1032,6 +1111,7 @@ ul { list-style: none; }
       <div class="stage"><img src="lipinski-signature-front.webp" data-img="m_ps" style="--h:1.000;--hm:1.000" alt="LIPINSKI L-700SE Powered Signature, front" width="330" height="1040"><img src="lipinski-signature-rear.webp" data-img="m_psr" style="--h:0.982;--hm:0.982" alt="LIPINSKI L-700SE Powered Signature, rear, showing the built-in Class A amplifier" width="343" height="1021"></div>
       <p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p>
       <h3>L-700SE Powered Signature</h3>
+      <p class="fits">Step three, for larger rooms</p>
       <p>Class A active flagship, with a separate L-401A amplifier for the bass section</p>
       <p class="cost">From $50,000 each</p>
     </article>
@@ -1370,6 +1450,56 @@ var SITE = {
   drawBands();
   var bandTimer;
   window.addEventListener("resize", function () { clearTimeout(bandTimer); bandTimer = setTimeout(drawBands, 150); });
+
+  /* Modular selector: a rotary dial that steps the speaker from one module to three */
+  (function () {
+    var grow = document.querySelector(".grow"), list = grow && grow.querySelector("ol");
+    if (!list || !window.PointerEvent) return;
+    var items = [].slice.call(list.children), ANG = [-58, 0, 58], NAMES = ["Smaller room", "Medium room", "Larger room"], at = 0;
+    var stage = document.createElement("div"); stage.className = "grow-stage";
+    list.parentNode.insertBefore(stage, list); stage.appendChild(list);
+    var side = document.createElement("div"); side.className = "dialside";
+    var box = document.createElement("div"); box.className = "dialbox";
+    var pos = NAMES.map(function (n, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "pos"; b.textContent = n.replace(" room", "");
+      b.setAttribute("aria-label", "Show the speaker for a " + n.toLowerCase());
+      b.addEventListener("click", function () { set(i); }); box.appendChild(b); return b;
+    });
+    var knob = document.createElement("button"); knob.type = "button"; knob.className = "knob";
+    knob.setAttribute("role", "slider"); knob.setAttribute("aria-label", "Room size"); knob.setAttribute("aria-valuemin", "1"); knob.setAttribute("aria-valuemax", "3");
+    box.appendChild(knob);
+    var hint = document.createElement("p"); hint.className = "dial-hint"; hint.textContent = "Turn the dial to match your room";
+    side.appendChild(box); side.appendChild(hint); stage.appendChild(side);
+    grow.classList.add("dial");
+    function set(i) {
+      at = Math.max(0, Math.min(2, i));
+      items.forEach(function (li, k) { li.classList.toggle("on", k === at); });
+      pos.forEach(function (b, k) { b.classList.toggle("on", k === at); });
+      knob.style.transform = "rotate(" + ANG[at] + "deg)";
+      knob.setAttribute("aria-valuenow", at + 1);
+      knob.setAttribute("aria-valuetext", NAMES[at] + ": " + items[at].querySelector(".name").textContent);
+    }
+    function angle(e) { var r = knob.getBoundingClientRect(); return Math.atan2(e.clientX - (r.left + r.width / 2), (r.top + r.height / 2) - e.clientY) * 180 / Math.PI; }
+    var dragging = false, moved = false, live = 0;
+    knob.addEventListener("pointerdown", function (e) { dragging = true; moved = false; knob.setPointerCapture(e.pointerId); knob.classList.add("drag"); });
+    knob.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      live = Math.max(-70, Math.min(70, angle(e))); moved = moved || Math.abs(live - ANG[at]) > 8;
+      if (moved) knob.style.transform = "rotate(" + live + "deg)";
+    });
+    function release() {
+      if (!dragging) return;
+      dragging = false; knob.classList.remove("drag");
+      if (moved) set(live < -29 ? 0 : live > 29 ? 2 : 1); else set((at + 1) % 3);   /* a tap steps to the next size */
+    }
+    knob.addEventListener("pointerup", release); knob.addEventListener("pointercancel", release);
+    knob.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowUp") { set(at + 1); e.preventDefault(); }
+      if (e.key === "ArrowLeft" || e.key === "ArrowDown") { set(at - 1); e.preventDefault(); }
+      if (e.key === "Home") { set(0); e.preventDefault(); } if (e.key === "End") { set(2); e.preventDefault(); }
+    });
+    set(0);
+  })();
 
   /* Sound: the site track, one audio file of about three and a half minutes that loops.
      It is fetched and starts only when the visitor presses the button. */

@@ -551,6 +551,12 @@ ul { list-style: none; }
 .press h3.display { font-size: clamp(1.6rem, 1rem + 2.4vw, 2.8rem); margin-bottom: clamp(22px, 3vw, 36px); }
 .press-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 56px); border-top: 2px solid var(--black); }
 .press-grid li { padding: 20px 0 22px; border-bottom: 1px solid var(--rule); }
+.press-body { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.press-body:has(.press-cover.noimg) { grid-template-columns: minmax(0, 1fr); }
+.press-body:not(:has(.press-cover.noimg)) .press-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.press-cover img { display: block; width: 100%; height: auto; box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
+.press-cover figcaption { margin-top: 10px; font-family: var(--display); font-weight: 500; font-size: .92rem; line-height: 1.45; }
+.press-cover.noimg { display: none; }
 .press-grid h4 { margin: 0 0 6px; font-family: var(--display); font-weight: 700; font-size: 1.1rem; line-height: 1.25; }
 .press-grid .who { font-family: var(--display); font-weight: 500; font-size: .92rem; margin-bottom: 8px; }
 
@@ -712,6 +718,9 @@ ul { list-style: none; }
 .way p.body { margin-top: 14px; }
 .way .btn, .way .tlink { margin-top: 20px; }
 .way .btn + .tlink, .way .tlink + .tlink { margin-top: 14px; }
+.way-pic { width: 100%; margin-top: 24px; }
+.way-pic img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #d9cdbb; }
+.way-pic.noimg { display: none; }
 .tlink { font-family: var(--display); font-weight: 700; text-underline-offset: 4px; text-decoration-thickness: 2px; }
 .tlink { text-decoration-color: var(--coral); }
 .tlink:hover { color: var(--coral-deep); }
@@ -826,7 +835,8 @@ ul { list-style: none; }
 @media (max-width: 380px) { .top .logo { height: 42px; } }
 @media (max-width: 900px) {
   .work-grid, .made-grid, .prov-head, .founder, .acq-grid, .range-head, .family-grid, .faq-grid { grid-template-columns: minmax(0, 1fr); }
-  .press-grid { grid-template-columns: minmax(0, 1fr); }
+  .press-grid, .press-body, .press-body:not(:has(.press-cover.noimg)) .press-grid { grid-template-columns: minmax(0, 1fr); }
+  .press-cover { max-width: 240px; }
   .made-pic { position: static; max-width: 420px; }
   .ways { grid-template-columns: minmax(0, 1fr); }
   .way { padding: 26px 0 30px; }
@@ -1015,12 +1025,19 @@ ul { list-style: none; }
       <p class="where">STAND, a café in Coral Gables</p>
       <p class="body">A LIPINSKI L-707 system is installed here. Go for breakfast, listen, then book the demo.</p>
       <a class="tlink" data-link="demo" href="#">Book a demo at CasaHiFi</a>
+      <!-- Photo slot: shows as soon as stand-coral-gables.jpg is in the repository -->
+      <figure class="way-pic noimg" data-imgwrap>
+        <img src="stand-coral-gables.jpg" data-slot alt="The LIPINSKI L-707 system installed at STAND in Coral Gables">
+      </figure>
     </article>
     <article class="way">
       <h3>Questions first?</h3>
       <p class="where">LIPINSKI Sound, Washington, D.C.</p>
       <p class="body">Ask us about rooms, placement or Dolby Atmos layouts, and we will set up your visit to CasaHiFi.</p>
       <a class="tlink" data-link="email" href="#">Email LIPINSKI</a>
+      <figure class="way-pic" data-imgwrap>
+        <img src="01.jpg" data-img="questions" alt="A pair of LIPINSKI L-50 monitors placed on a white sideboard beneath a wall-mounted screen" width="1022" height="943" loading="lazy">
+      </figure>
     </article>
   </div>
 </section>
@@ -1046,6 +1063,12 @@ ul { list-style: none; }
 
   <div class="press">
     <h3 class="display">Two decades in print.</h3>
+    <div class="press-body">
+    <!-- Photo slot: shows as soon as stereophile-cover.jpg is in the repository -->
+    <figure class="press-cover noimg" data-imgwrap>
+      <img src="stereophile-cover.jpg" data-slot alt="Cover of the Stereophile issue carrying the LIPINSKI L-707 review">
+      <figcaption>Stereophile, December 2005</figcaption>
+    </figure>
     <ul class="press-grid">
       <li><h4>DC HiFi</h4><p class="who">L-50, John Gatski</p><p>Judged the L-50 “a best-in-class speaker” for accuracy in a small footprint.</p></li>
       <li><h4>Stereophile Recommended Components, Class A</h4><p class="who">L-707, reviewed by Larry Greenhill, December 2005</p><p>Compared favourably with the Quad ESL-989 and the Revel Salon.</p></li>
@@ -1054,6 +1077,7 @@ ul { list-style: none; }
       <li><h4>Mix</h4><p class="who">L-505, Joe Hannigan, May 2005</p><p>Called the level of detail “simply jaw-dropping” after A/B tests.</p></li>
       <li><h4>Pro Audio Review</h4><p class="who">L-301 amplifier, Bob Katz</p><p>Ranked among the best-sounding amplifiers the reviewer had heard.</p></li>
     </ul>
+    </div>
     <button class="more btn btn-line" type="button" data-more hidden>Show all six</button>
   </div>
 
@@ -1339,6 +1363,13 @@ var SITE = {
     if (SITE.images[k] && img.getAttribute("src") !== SITE.images[k]) img.src = SITE.images[k];
     if (img.complete && img.getAttribute("src") && !img.naturalWidth && img.loading !== "lazy") img.dispatchEvent(new Event("error"));
   });
+  /* Photo slots stay hidden until their file exists and has loaded. */
+  $all("[data-slot]").forEach(function (img) {
+    var wrap = img.closest ? img.closest("[data-imgwrap]") : null;
+    if (!wrap) return;
+    function show() { if (img.naturalWidth) wrap.classList.remove("noimg"); }
+    if (img.complete) show(); else img.addEventListener("load", show);
+  });
   $all("[data-logo]").forEach(function (img) {
     /* If the logo file cannot load, a typeset version of the lockup shows instead. */
     img.addEventListener("error", function () { img.parentNode.classList.add("logo-missing"); });
@@ -1387,7 +1418,7 @@ var SITE = {
   $all("[data-more]").forEach(function (b) {
     b.hidden = false;
     b.addEventListener("click", function () {
-      var list = b.previousElementSibling; list.classList.add("all"); b.hidden = true;
+      var list = b.previousElementSibling; if (list.tagName !== "UL") list = list.querySelector("ul"); list.classList.add("all"); b.hidden = true;
       var first = list.children[4]; if (first) { first.setAttribute("tabindex", "-1"); first.focus({ preventScroll: true }); }
     });
   });

@@ -581,7 +581,7 @@ ul { list-style: none; }
 .grow { margin-top: clamp(44px, 6vw, 84px); }
 .grow h3 { font-family: var(--display); font-weight: 700; font-size: clamp(1.35rem, 1rem + 1.5vw, 2.1rem); line-height: 1.15; max-width: 24ch; }
 .grow-text p { margin-top: 14px; max-width: var(--measure); }
-.grow ol { list-style: none; margin: clamp(28px, 4vw, 48px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(10px, 2.4vw, 36px); }
+.grow ol { list-style: none; margin: clamp(28px, 4vw, 48px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 clamp(10px, 2.4vw, 36px); }
 .grow li { display: flex; flex-direction: column; }
 .grow .pic { --ph: clamp(330px, 38vw, 520px); height: var(--ph); display: flex; align-items: flex-end; justify-content: center; border-bottom: 2px solid var(--coral); }
 .grow .pic img { height: calc(var(--ph) * var(--h)); width: auto; max-width: none; filter: drop-shadow(0 16px 16px rgba(0, 0, 0, .5)); }
@@ -609,11 +609,11 @@ ul { list-style: none; }
 .grow.dial .pic .rear { display: block; }
 .grow.dial .views { display: flex; justify-content: center; gap: clamp(14px, 4vw, 34px); margin-top: 8px; font-family: var(--display); font-weight: 500; font-size: .82rem; }
 .grow.dial .views span { flex: 0 1 7.5rem; text-align: center; }
-.grow.dial .name { font-size: 1.35rem; text-transform: uppercase; letter-spacing: .02em; }   /* capitals: the display face draws a short-tailed g that reads as cut off at this size */
+.grow.dial .name { font-size: clamp(1.02rem, 5.1vw, 1.35rem); text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; align-self: center; }   /* capitals: the display face draws a short-tailed g that reads as cut off at this size */
 .grow.dial .size { font-size: 1rem; }
 .grow.dial .mods, .grow.dial li .cost { font-size: 1.05rem; }
 .grow-stage { display: flex; flex-direction: column; align-items: stretch; margin-top: clamp(20px, 3vw, 36px); padding: clamp(14px, 2.4vw, 30px); border: 2px solid var(--coral); border-radius: 22px; background: linear-gradient(180deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .03)); box-shadow: 0 0 0 6px rgba(255, 106, 85, .12), 0 24px 50px rgba(0, 0, 0, .35); }
-.dialbox { position: relative; width: 250px; height: 178px; margin: 6px auto 0; flex: none; }
+.dialbox { position: relative; width: 250px; height: 184px; margin: 6px auto 0; flex: none; }
 .dialbox .knob { position: absolute; left: 50%; bottom: 0; width: 124px; height: 124px; margin-left: -62px; border-radius: 50%; border: 0; padding: 0; cursor: grab; touch-action: none;
   background: radial-gradient(circle at 35% 28%, #55607c, #1b2440 58%, #0c1226); box-shadow: 0 0 0 3px var(--coral), 0 0 34px 6px rgba(255, 106, 85, .7), 0 0 56px 12px rgba(255, 106, 85, .26), 0 14px 26px rgba(0, 0, 0, .55), inset 0 0 22px rgba(255, 106, 85, .35), inset 0 2px 3px rgba(255, 255, 255, .25); transition: transform .28s cubic-bezier(.3, 1.4, .5, 1); animation: knobglow 2.4s ease-in-out infinite; }
 @keyframes knobglow { 0%, 100% { box-shadow: 0 0 0 3px var(--coral), 0 0 22px 2px rgba(255, 106, 85, .5), 0 0 40px 6px rgba(255, 106, 85, .16), 0 14px 26px rgba(0, 0, 0, .55), inset 0 0 14px rgba(255, 106, 85, .2), inset 0 2px 3px rgba(255, 255, 255, .25); } 50% { box-shadow: 0 0 0 3px var(--coral), 0 0 44px 10px rgba(255, 106, 85, .85), 0 0 64px 16px rgba(255, 106, 85, .34), 0 14px 26px rgba(0, 0, 0, .55), inset 0 0 30px rgba(255, 106, 85, .5), inset 0 2px 3px rgba(255, 255, 255, .25); } }
@@ -626,9 +626,10 @@ ul { list-style: none; }
 .dialbox .knob:focus-visible { outline: 3px solid var(--coral); outline-offset: 5px; }
 .dialbox .pos { position: absolute; background: none; border: 0; padding: 6px 4px; color: var(--white); opacity: .75; font-family: var(--display); font-weight: 700; font-size: .92rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; white-space: nowrap; }
 .dialbox .pos.on { color: var(--coral); opacity: 1; }
-.dialbox .pos:nth-of-type(1) { left: 0; top: 30px; }
-.dialbox .pos:nth-of-type(2) { left: 50%; top: 0; transform: translateX(-50%); }
-.dialbox .pos:nth-of-type(3) { right: 0; top: 30px; }
+.dialbox .pos:nth-of-type(1) { left: 0; top: 36px; }
+.dialbox .pos:nth-of-type(2) { right: calc(50% + 6px); top: 0; }
+.dialbox .pos:nth-of-type(3) { left: calc(50% + 6px); top: 0; }
+.dialbox .pos:nth-of-type(4) { right: 0; top: 36px; }
 .dial-hint { text-align: center; font-family: var(--display); font-weight: 700; font-size: 1rem; color: var(--coral); margin-top: 16px; }
 @media (min-width: 900px) {
   .grow-stage { grid-area: pics; margin-top: 0; }
@@ -862,6 +863,7 @@ ul { list-style: none; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .grow { grid-template-columns: minmax(0, 1fr); }
   .grow .name { font-size: .95rem; }
+  .grow ol { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
   .grow .size, .grow .mods, .grow li .cost { font-size: .82rem; }
   .hero-copy { padding-top: 112px; }
   .hero-cta .btn { flex: 1 1 100%; }
@@ -1111,6 +1113,7 @@ ul { list-style: none; }
     <ol>
       <li><div class="pic"><img src="lipinski-l700se-stand-front-v3.webp" style="--h:.69" alt="LIPINSKI L-700SE, one module on a stand" loading="lazy"><img class="rear" src="lipinski-l700se-stand-rear-v2.webp" style="--h:.697" alt="LIPINSKI L-700SE on a stand, rear, with its Class A amplifier" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Smaller room</p><p class="name">L-700SE</p><p class="mods">One module</p><p class="cost">$17,500 each</p></li>
       <li><div class="pic"><img src="lipinski-l700se-grand-front-v2.webp" style="--h:.69" alt="LIPINSKI L-700SE Grand, two modules stacked" loading="lazy"><img class="rear" src="lipinski-l700se-grand-rear-v2.webp" style="--h:.697" alt="LIPINSKI L-700SE Grand, rear, with its Class A amplifiers" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Medium room</p><p class="name">L-700SE Grand</p><p class="mods">Two modules: add a bass module</p><p class="cost">$34,000 each</p></li>
+      <li><div class="pic"><img src="lipinski-l700se-grand-top-front.webp" style="--h:1" alt="LIPINSKI L-700SE Grand Top: the L-700SE on a stand with the three-driver module on top" loading="lazy"><img class="rear" src="lipinski-l700se-grand-top-rear.webp" style="--h:1" alt="LIPINSKI L-700SE Grand Top, rear, with its Class A amplifiers" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Medium room</p><p class="name">L-700SE Grand Top</p><p class="mods">Two modules: add a top module, on a stand</p><p class="cost">$34,000 each</p></li>
       <li><div class="pic"><img src="lipinski-signature-front-v2.webp" style="--h:1" alt="LIPINSKI Signature, three modules stacked" loading="lazy"><img class="rear" src="lipinski-signature-rear-v2.webp" style="--h:1" alt="LIPINSKI Signature, rear, with its Class A amplifiers" loading="lazy"></div><p class="views" aria-hidden="true"><span>Front</span><span>Rear</span></p><p class="size">Larger room</p><p class="name">Signature</p><p class="mods">Three modules: add a second bass module</p><p class="cost">From $50,000 each</p></li>
     </ol>
     <p class="offer-foot">Buy the step that fits your room today and add the next module when you move up. <a data-link="demo" href="https://calendly.com/lukas-lipinskisound/30min">Set up a private listening session in Miami</a></p>
@@ -1491,22 +1494,22 @@ var SITE = {
   var bandTimer;
   window.addEventListener("resize", function () { clearTimeout(bandTimer); bandTimer = setTimeout(drawBands, 150); });
 
-  /* Modular selector: a rotary dial that steps the speaker from one module to three */
+  /* Modular selector: a rotary dial that steps through the four versions, from one module to three */
   (function () {
     var grow = document.querySelector(".grow"), list = grow && grow.querySelector("ol");
     if (!list || !window.PointerEvent) return;
-    var items = [].slice.call(list.children), ANG = [-58, 0, 58], NAMES = ["Smaller room", "Medium room", "Larger room"], at = 0;
+    var items = [].slice.call(list.children), ANG = [-66, -22, 22, 66], NAMES = ["Smaller room", "Medium room", "Medium room", "Larger room"], LABELS = ["Smaller", "Medium", "Medium Top", "Larger"], LAST = items.length - 1, at = 0;
     var stage = document.createElement("div"); stage.className = "grow-stage";
     list.parentNode.insertBefore(stage, list); stage.appendChild(list);
     var side = document.createElement("div"); side.className = "dialside";
     var box = document.createElement("div"); box.className = "dialbox";
     var pos = NAMES.map(function (n, i) {
-      var b = document.createElement("button"); b.type = "button"; b.className = "pos"; b.textContent = n.replace(" room", "");
-      b.setAttribute("aria-label", "Show the speaker for a " + n.toLowerCase());
+      var b = document.createElement("button"); b.type = "button"; b.className = "pos"; b.textContent = LABELS[i];
+      b.setAttribute("aria-label", "Show the " + items[i].querySelector(".name").textContent + ", for a " + n.toLowerCase());
       b.addEventListener("click", function () { box.classList.add("used"); stopAuto(); set(i); }); box.appendChild(b); return b;
     });
     var knob = document.createElement("button"); knob.type = "button"; knob.className = "knob";
-    knob.setAttribute("role", "slider"); knob.setAttribute("aria-label", "Room size"); knob.setAttribute("aria-valuemin", "1"); knob.setAttribute("aria-valuemax", "3");
+    knob.setAttribute("role", "slider"); knob.setAttribute("aria-label", "Room size"); knob.setAttribute("aria-valuemin", "1"); knob.setAttribute("aria-valuemax", String(LAST + 1));
     var halo = document.createElement("span"); halo.className = "halo"; box.insertBefore(halo, box.firstChild);
     box.appendChild(knob);
     var word = document.createElement("span"); word.className = "word"; word.setAttribute("aria-hidden", "true"); word.textContent = "Click"; box.appendChild(word);
@@ -1514,7 +1517,7 @@ var SITE = {
     side.appendChild(box); side.appendChild(hint); stage.appendChild(side);
     grow.classList.add("dial");
     function set(i) {
-      at = Math.max(0, Math.min(2, i));
+      at = Math.max(0, Math.min(LAST, i));
       items.forEach(function (li, k) { li.classList.toggle("on", k === at); });
       pos.forEach(function (b, k) { b.classList.toggle("on", k === at); });
       knob.style.transform = "rotate(" + ANG[at] + "deg)";
@@ -1526,20 +1529,20 @@ var SITE = {
     knob.addEventListener("pointerdown", function (e) { box.classList.add("used"); stopAuto(); dragging = true; moved = false; knob.setPointerCapture(e.pointerId); knob.classList.add("drag"); });
     knob.addEventListener("pointermove", function (e) {
       if (!dragging) return;
-      live = Math.max(-70, Math.min(70, angle(e))); moved = moved || Math.abs(live - ANG[at]) > 8;
+      live = Math.max(-80, Math.min(80, angle(e))); moved = moved || Math.abs(live - ANG[at]) > 8;
       if (moved) knob.style.transform = "rotate(" + live + "deg)";
     });
     function release() {
       if (!dragging) return;
       dragging = false; knob.classList.remove("drag");
-      if (moved) set(live < -29 ? 0 : live > 29 ? 2 : 1); else set((at + 1) % 3);   /* a tap steps to the next size */
+      if (moved) set(live < -44 ? 0 : live < 0 ? 1 : live < 44 ? 2 : 3); else set((at + 1) % (LAST + 1));   /* a tap steps to the next size */
     }
     knob.addEventListener("pointerup", release); knob.addEventListener("pointercancel", release);
     knob.addEventListener("keydown", function (e) {
       box.classList.add("used"); stopAuto();
       if (e.key === "ArrowRight" || e.key === "ArrowUp") { set(at + 1); e.preventDefault(); }
       if (e.key === "ArrowLeft" || e.key === "ArrowDown") { set(at - 1); e.preventDefault(); }
-      if (e.key === "Home") { set(0); e.preventDefault(); } if (e.key === "End") { set(2); e.preventDefault(); }
+      if (e.key === "Home") { set(0); e.preventDefault(); } if (e.key === "End") { set(LAST); e.preventDefault(); }
     });
     set(0);
     /* Once the section scrolls into view the dial steps to the next size every two seconds.
@@ -1549,7 +1552,7 @@ var SITE = {
     function stopAuto() { auto = false; pauseAuto(); }
     if (auto) new IntersectionObserver(function (en) {
       if (!auto) return;
-      if (en[0].isIntersecting) { if (!timer) timer = setInterval(function () { set((at + 1) % 3); }, 2000); } else pauseAuto();
+      if (en[0].isIntersecting) { if (!timer) timer = setInterval(function () { set((at + 1) % (LAST + 1)); }, 2000); } else pauseAuto();
     }, { threshold: .35 }).observe(stage);
   })();
 

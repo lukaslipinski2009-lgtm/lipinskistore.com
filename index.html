@@ -632,10 +632,12 @@ ul { list-style: none; }
 .dial-hint { text-align: center; font-family: var(--display); font-weight: 700; font-size: 1rem; color: var(--coral); margin-top: 16px; }
 @media (min-width: 900px) {
   .grow-stage { grid-area: pics; margin-top: 0; }
-  .grow.dial ol { --stage: clamp(400px, 36vw, 540px); }
+  /* cap the speaker height by the window height so the whole selector, dial included, fits on one laptop screen */
+  .grow.dial ol { --stage: clamp(300px, min(36vw, 100vh - 470px), 540px); }
 }
-@media (min-width: 1500px) {
-  .grow-stage { flex-direction: row; align-items: center; gap: clamp(16px, 3vw, 48px); }
+@media (min-width: 1100px) {
+  .grow-stage { flex-direction: row; align-items: center; gap: clamp(12px, 2vw, 48px); }
+  .grow.dial ol { --stage: clamp(300px, min(36vw, 100vh - 250px), 540px); }
   .grow.dial ol { flex: 1; }
   .grow-stage .dialside { flex: none; }
 }

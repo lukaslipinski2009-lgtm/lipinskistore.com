@@ -385,7 +385,7 @@ ul { list-style: none; }
 /* Header */
 .top {
   position: absolute; inset: 0 0 auto 0;
-  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
   padding-top: 18px; padding-bottom: 18px;
   color: var(--white);
 }
@@ -396,6 +396,8 @@ ul { list-style: none; }
 .wordmark { display: inline-flex; align-items: center; }
 .logo { position: relative; z-index: 20; height: 54px; width: auto; flex: none; }
 .wordmark { flex: none; }
+.brand { position: relative; z-index: 20; flex: none; display: flex; flex-direction: column; align-items: flex-start; }
+.tagline { margin-top: 8px; font-family: var(--text, 'Spectral', serif); font-size: .912rem; line-height: 1.2; letter-spacing: .005em; color: var(--white); white-space: nowrap; }
 .logo.invert { filter: grayscale(1) invert(1); mix-blend-mode: screen; }
 .foot .logo { height: 68px; z-index: auto; }
 .lockup { display: none; position: relative; z-index: 20; flex-direction: column; align-items: stretch; line-height: 1; letter-spacing: .04em; font-size: 1.7rem; }
@@ -405,7 +407,7 @@ ul { list-style: none; }
 .logo-missing .logo { display: none; }
 .logo-missing .lockup { display: inline-flex; }
 .nav, .menu-btn { position: relative; z-index: 20; }
-.nav { display: flex; align-items: center; gap: clamp(14px, 1.7vw, 30px); }
+.nav { display: flex; align-items: center; gap: clamp(14px, 1.7vw, 30px); min-height: 54px; }
 .nav a:not(.btn) {
   font-family: var(--display); font-weight: 500; font-size: .92rem; white-space: nowrap;
   text-decoration: none; padding: 8px 0;
@@ -433,10 +435,10 @@ ul { list-style: none; }
 .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-copy {
   position: relative; z-index: 2;
-  padding-top: clamp(120px, 17vh, 190px);
+  padding-top: clamp(140px, 19vh, 200px);   /* clear of the logo and its tagline */
 }
 .hero h1 {
-  font-size: clamp(2rem, 9.4vw, 8rem);
+  font-size: clamp(2rem, min(9.4vw, 15vh), 8rem);   /* eases down on short screens so the buttons stay in view */
   line-height: .92;
   letter-spacing: -.035em;
 }
@@ -830,7 +832,8 @@ ul { list-style: none; }
 /* Responsive */
 /* The full menu needs about 1240px beside the logo; below that it folds into the Menu button */
 @media (max-width: 1240px) {
-  .menu-btn { display: inline-flex; align-items: center; }
+  .menu-btn { display: inline-flex; align-items: center; margin-top: 5px; }
+  .nav { min-height: 0; }
   .nav {
     display: none; z-index: 21;
     position: absolute; top: 100%; left: auto; right: var(--gutter); width: min(420px, calc(100% - 2 * var(--gutter)));
@@ -842,7 +845,7 @@ ul { list-style: none; }
   .nav a:not(.btn) { padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, .18); font-size: 1.05rem; }
   .nav .btn { margin-top: 16px; min-height: 50px; }
 }
-@media (max-width: 380px) { .top .logo { height: 42px; } }
+@media (max-width: 380px) { .top .logo { height: 42px; } .menu-btn { margin-top: 0; } .tagline { font-size: .712rem; margin-top: 6px; } }
 @media (max-width: 900px) {
   .work-grid, .made-grid, .prov-head, .founder, .acq-grid, .range-head, .family-grid, .faq-grid { grid-template-columns: minmax(0, 1fr); }
   .press-grid, .press-body, .press-body:not(:has(.press-cover.noimg)) .press-grid { grid-template-columns: minmax(0, 1fr); }
@@ -868,7 +871,7 @@ ul { list-style: none; }
   .grow .name { font-size: .95rem; }
   .grow ol { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
   .grow .size, .grow .mods, .grow li .cost { font-size: .82rem; }
-  .hero-copy { padding-top: 112px; }
+  .hero-copy { padding-top: 140px; }
   .hero-cta .btn { flex: 1 1 100%; }
   .made-cta .btn { flex: 1 1 100%; }
   .facts li, .ledger li { grid-template-columns: minmax(0, 1fr); }
@@ -887,7 +890,7 @@ ul { list-style: none; }
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="top wrap">
-  <a class="wordmark" href="#top" aria-label="LIPINSKI Sound, back to top"><img class="logo" src="lipinski-logo-white.png" data-logo alt="LIPINSKI Sound" width="720" height="193"><span class="lockup" aria-hidden="true"><b>LIPINSKI</b><i></i><small>SOUND</small></span></a>
+  <div class="brand"><a class="wordmark" href="#top" aria-label="LIPINSKI Sound, back to top"><img class="logo" src="lipinski-logo-white.png" data-logo alt="LIPINSKI Sound" width="720" height="193"><span class="lockup" aria-hidden="true"><b>LIPINSKI</b><i></i><small>SOUND</small></span></a><p class="tagline">Hear everything. Miss nothing.</p></div>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
   <nav class="nav" id="nav" aria-label="Main">
     <a href="#l50">The L-50</a>
